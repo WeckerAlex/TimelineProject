@@ -481,7 +481,7 @@
         <path id="Pfad_1" d="M 0 0 L 1920 0 L 1920 1080 L 0 1080 L 0 0 Z">
         </path>
     </svg>
-    <div onclick="application.goToTargetView(event)" id="Komponente_25__3" class="Komponente_25___3">
+    <div onclick="window.location='{{ url("Timeline/Lam en chiffres") }}'" id="Komponente_25__3" class="Komponente_25___3">
         <div id="LAM_EN_CHIFFRES">
             <span>LAM EN CHIFFRES</span>
         </div>

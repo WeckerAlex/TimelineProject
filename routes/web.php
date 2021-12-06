@@ -16,6 +16,12 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
 Route::get('/Timeline', function () {
     return view('timeline');
+});
+
+//Route to specific category and event
+Route::get('/Timeline/{category}/{eventId?}', function ($category, $eventId = null) {
+    return view('timelineOverview',['id'=> $category,'eventId' => $eventId]);
 });
