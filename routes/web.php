@@ -22,6 +22,10 @@ Route::get('/Timeline', function () {
 });
 
 //Route to specific category and event
-Route::get('/Timeline/{category}/{eventId?}', function ($category, $eventId = null) {
-    return view('timelineOverview',['id'=> $category,'eventId' => $eventId]);
+Route::get('/Timeline/{category}/Event/{eventId}/{languageId}', function ($category, $eventId = null, $languageid) {
+        return view('timelineOverview',['id'=> $category,'eventId' => $eventId, 'languageid' => $languageid]);
+});
+
+Route::get('/Timeline/{category}/{languageid}', function ($category, $languageid) {
+    return view('timelineOverview',['id'=> $category, 'languageid' => $languageid]);
 });
