@@ -13,19 +13,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/Timeline/{languageId?}', function ($languageid = "fr") {
+    return view('timeline',['languageid' => $languageid]);
+})->name('home')->where('languageId', '[a-zA-Z-]{2}');
 
-Route::get('/Timeline', function () {
-    return view('timeline');
+Route::get('/Timeline/{category}/{languageid?}', function ($category, $languageid = "fr") {
+    return view('timelineOverview',['id'=> $category, 'languageid' => $languageid]);
 });
 
 //Route to specific category and event
-Route::get('/Timeline/{category}/Event/{eventId}/{languageId}', function ($category, $eventId = null, $languageid) {
-        return view('timelineOverview',['id'=> $category,'eventId' => $eventId, 'languageid' => $languageid]);
-});
-
-Route::get('/Timeline/{category}/{languageid}', function ($category, $languageid) {
-    return view('timelineOverview',['id'=> $category, 'languageid' => $languageid]);
+Route::get('/Timeline/{category}/Event/{eventId}/{languageId?}', function ($category, $eventId = null, $languageid = "fr") {
+    return view('timelineOverview',['id'=> $category,'eventId' => $eventId, 'languageid' => $languageid]);
 });

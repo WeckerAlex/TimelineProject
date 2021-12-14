@@ -23,6 +23,7 @@
             font-size: 70px;
             display: table-row;
             font-style: normal;
+            font-family: monospace;
         }
 
     </style>

@@ -1,9 +1,9 @@
 * {
     margin: 0;
-    padding: 0;
 }
 body, html {
     height: 100%;
+    font-family: sans-serif;
 }
 header {
     height: 100%;
@@ -18,4 +18,33 @@ h1{
     vertical-align: middle;
     font-size: 10em;
     color: #b51515
+}
+#popup {
+    background-color: rgba(181, 21, 21, 1);
+    height: 80vh;
+}
+
+#popup #categoryList {
+    display: table;
+    margin-left: 30px;
+    color: white;
+    list-style: rectangle;
+    font-weight: bold;
+    display: table;
+}
+
+#popup #categoryList li {
+    font-size: 70px;
+    margin-left: 20px;
+    font-style: normal;
+}
+@counter-style rectangle {
+    system: cyclic;
+    symbols: "\0025A0";
+    suffix: " ";
+}
+#rectangle {
+    width: 200px;
+    height: 100px;
+    background: red;
 }
