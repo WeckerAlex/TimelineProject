@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+    <title>LAM125 - Introduction</title>
     <style>
         * {
             padding: 0;
@@ -13,7 +14,7 @@
         body, html {
             background-color: rgba(181, 21, 21, 1);
             height: 90vh;
-            width: 80vw;
+            width: 60vw;
         }
 
         #categoryList {
@@ -28,7 +29,7 @@
             margin-bottom: 4vh;
         }
 
-        li, .whiteRectangle {
+        li, .whiteRectangle, .test {
             display: inline-block;
             list-style-type: none;
             color: white;
@@ -44,6 +45,16 @@
             margin-left: 2vw;
             margin-right: 1vw;
             height: 52px;
+        }
+
+        .draftImg {
+            width: 7vw;
+            height: 7vh;
+            margin-left: 20vw;
+        }
+
+        li:hover > .draftImg {
+            transform: scale(1.5);
         }
 
         li:hover > .whiteRectangle {
@@ -64,12 +75,20 @@
 
     $langId = DB::table('Language')->where('dtIso_code', $languageid)->value('idLanguage');
 
+
     $categories = DB::table('CategoryLang')->where('fiLanguage', $langId)->get();
     foreach ($categories as $category) {
-        $test = $category->dtText;
-        echo "<a href='./$test/$languageid'><li><div class='whiteRectangle'></div>";
+
+//        $categoriesText = DB::table('CategoryLang')->where('fiLanguage', 1 AND 'fiCategory', $category->fiCategory)->get();
+//
+//        foreach ($categoriesText as $categoryFrench) {
+//            $categoryText = $categoryFrench->dtText;
+//        }
+        $categoryText = $category->dtText;
+        $url = route('Timeline', ['category'=> $categoryText, 'languageid' => $languageid]);
+        echo "<a href=$url><li><div class='whiteRectangle'></div>";
         echo $category->dtText;
-        echo "</li></a>";
+        echo "<img class='draftImg' src='../../images/intro/Image1_modif.png'></li></a>";
     }
     ?>
 </ul>

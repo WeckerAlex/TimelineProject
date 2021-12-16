@@ -12,9 +12,6 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/Timeline', function () {
-    return redirect('/Timeline/fr');
-});
 
 Route::get('/Timeline/{languageId?}', function ($languageid = "fr") {
     return view('timeline',['languageid' => $languageid]);
@@ -22,7 +19,7 @@ Route::get('/Timeline/{languageId?}', function ($languageid = "fr") {
 
 Route::get('/Timeline/{category}/{languageid?}', function ($category, $languageid = "fr") {
     return view('timelineOverview',['id'=> $category, 'languageid' => $languageid]);
-});
+})->name('Timeline');
 
 //Route to specific category and event
 Route::get('/Timeline/{category}/Event/{eventId}/{languageId?}', function ($category, $eventId = null, $languageid = "fr") {
