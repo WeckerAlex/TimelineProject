@@ -5,7 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
     <style>
-        * { padding: 0; margin: 0; }
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
         body, html {
             background-color: rgba(181, 21, 21, 1);
             height: 90vh;
@@ -24,7 +28,7 @@
             margin-bottom: 4vh;
         }
 
-        li , .whiteRectangle {
+        li, .whiteRectangle {
             display: inline-block;
             list-style-type: none;
             color: white;
@@ -36,14 +40,14 @@
 
         .whiteRectangle {
             background-color: white;
-            width: 12vh;
+            width: 7vw;
             margin-left: 2vw;
             margin-right: 1vw;
-            height: 5.2vh;
+            height: 52px;
         }
 
-        li:hover > .whiteRectangle{
-            width: 22vh;
+        li:hover > .whiteRectangle {
+            width: 11vw;
             background-color: #5F0000;
         }
 
@@ -56,16 +60,18 @@
 <body>
 
 <ul id="categoryList">
-<?php
+    <?php
 
-    $categories = DB::table('CategoryLang')->get();
-foreach ($categories as $category) {
-    $test = $category->dtText;
-    echo "<a href='Timeline/$test/fr'><li><div class='whiteRectangle'></div>";
-    echo $category->dtText;
-    echo "</li></a>";
-}
-?>
+    $langId = DB::table('Language')->where('dtIso_code', $languageid)->value('idLanguage');
+
+    $categories = DB::table('CategoryLang')->where('fiLanguage', $langId)->get();
+    foreach ($categories as $category) {
+        $test = $category->dtText;
+        echo "<a href='./$test/$languageid'><li><div class='whiteRectangle'></div>";
+        echo $category->dtText;
+        echo "</li></a>";
+    }
+    ?>
 </ul>
 </body>
 </html>
