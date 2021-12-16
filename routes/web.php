@@ -25,3 +25,7 @@ Route::get('/Timeline/{category}/{languageid?}', function ($category, $languagei
 Route::get('/Timeline/{category}/Event/{eventId}/{languageId?}', function ($category, $eventId = null, $languageid = "fr") {
     return view('timelineOverview',['id'=> $category,'eventId' => $eventId, 'languageid' => $languageid]);
 });
+
+Route::get('/Timeline/Event/{eventId}/{languageId}', function ($eventId, $languageid) {
+    return view('eventDetails',['eventid' => $eventId,'languageid' => $languageid]);
+});
