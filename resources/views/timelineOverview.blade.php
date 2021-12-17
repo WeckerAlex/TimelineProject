@@ -5,29 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="{{ URL('css/timelineOverview.css') }}">
     <script>
-        function openSearch() {
-            document.getElementById("myOverlay").style.display = "block";
-            document.getElementById("myOverlay").focus();
-            disableScroll();
+        var verticalOffset = 0;
+        var eventId = ""
+
+        function openDetails(eventid) {
+            document.getElementById("Detailspopup").style.display = "block";
+            verticalOffset = window.pageYOffset || document.documentElement.scrollTop;
+            eventId = eventid;
+            window.scrollTo(0, 0);
+            document.getElementById()
         }
 
         // Close the full screen search box
-        function closeSearch() {
-            document.getElementById("myOverlay").style.display = "none";
-            enableScroll();
-        }
-        function disableScroll() {
-            // Get the current page scroll position
-            scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-
-                // if any scroll is attempted, set this to the previous value
-                window.onscroll = function() {
-                    window.scrollTo(0, scrollTop);
-                };
-        }
-
-        function enableScroll() {
-            window.onscroll = function() {};
+        function closeDetails() {
+            document.getElementById("Detailspopup").style.display = "none";
+            window.scrollTo(0, verticalOffset);
         }
     </script>
     <title>Timeline</title>
@@ -52,6 +44,9 @@
                         ->where('fiLanguage', $langId)
                         ->orderBy('dtYear', 'asc')
                         ->get();
+    function test(){
+
+    }
 @endphp
 
     <header style="background-image: url({{url('images/intro_page/Image7_modif@2x.png')}})">
@@ -79,14 +74,14 @@
                 <h2>{{$eventdata->dtYear}}</h2>
                 <h3>{{$eventdata->dtTitle}}</h3>
                 <p>{{$eventdata->dtDescription}}</p>
-                <button onclick=openSearch()>Details</button>
+                <button onclick=openDetails({{$eventdata->idEvent}});>Details</button>
             </div>
         @endforeach
     </div>
-    <div id="myOverlay" class="overlay">
-        <span class="closebtn" onclick=closeSearch(); title="Close Overlay">x</span>
+    <div id="Detailspopup" class="overlay">
+        <span class="closebtn" onclick=closeDetails()>Go back</span>
         <div class="overlay-content">
-            <div>Andrea's stuff</div>
+            @include('eventDetails',['eventid' => rand(1,10),'languageid' => $langId]);
         </div>
     </div>
 </body>
