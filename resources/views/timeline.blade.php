@@ -34,7 +34,7 @@
             list-style-type: none;
             color: white;
             font-family: Roboto;
-            font-size: 450%;
+            font-size: 4vw;
             font-weight: bolder;
             transition: 0.3s;
         }
@@ -44,7 +44,7 @@
             width: 7vw;
             margin-left: 2vw;
             margin-right: 1vw;
-            height: 52px;
+            height: 6vh;
         }
 
         .draftImg {
@@ -73,22 +73,31 @@
 <ul id="categoryList">
     <?php
 
+    $check1 = DB::table('Language')->where('dtIso_code', $languageid)->count();
+
+    if ($check1 <> 1){
+        header("Location: ".route("home"));
+        exit();
+    }
+
     $langId = DB::table('Language')->where('dtIso_code', $languageid)->value('idLanguage');
+
 
 
     $categories = DB::table('CategoryLang')->where('fiLanguage', $langId)->get();
     foreach ($categories as $category) {
 
-//        $categoriesText = DB::table('CategoryLang')->where('fiLanguage', 1 AND 'fiCategory', $category->fiCategory)->get();
-//
-//        foreach ($categoriesText as $categoryFrench) {
-//            $categoryText = $categoryFrench->dtText;
-//        }
-        $categoryText = $category->dtText;
+        $french = DB::table('CategoryLang')->where('fiLanguage', 1)->where('fiCategory', $category->fiCategory)->get();
+
+        foreach ($french as $frenchText) {
+            $categoryText = $frenchText->dtText;
+            }
+
         $url = route('Timeline', ['category'=> $categoryText, 'languageid' => $languageid]);
         echo "<a href=$url><li><div class='whiteRectangle'></div>";
         echo $category->dtText;
         echo "<img class='draftImg' src='../../images/intro/Image1_modif.png'></li></a>";
+
     }
     ?>
 </ul>
