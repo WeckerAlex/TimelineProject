@@ -12,7 +12,7 @@
         }
 
         body, html {
-            background-color: rgba(181, 21, 21, 1);
+            background-color: #912E22;
             height: 90vh;
             width: 60vw;
         }
@@ -64,6 +64,15 @@
 
         li:hover {
             color: #5F0000;
+        }
+
+        #content {
+            position: relative;
+        }
+        #content p {
+            position: absolute;
+            top: 0px;
+            right: 0px;
         }
 
     </style>
