@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{{ URL('css/timelineOverview.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ URL('css/colors.css') }}">
     <script>
         var verticalOffset = 0;
         var isMenuShown = false;
@@ -26,6 +27,13 @@
 
         function togglemenu(){
             console.log("menu Toggle");
+        }
+        function copyToClipboard(){
+            console.log("Copied the text");
+            var currenturl = window.location
+            console.log("Copied the text: " + currenturl);
+            navigator.clipboard.writeText(currenturl);
+            alert("Copied the text: " + currenturl);
         }
     </script>
     <script>
@@ -92,10 +100,10 @@
     }
 @endphp
 
-    <header style="background-image: url({{url('images/intro_page/Image7_modif@2x.png')}})">
-        <div>
+    <header style="background-image: url({{url('images/intro_page/Image7_modif.png')}})">
+        <button onclick="copyToClipboard()">
             Share
-        </div>
+        </button>
         <h1>{{
             DB::table('CategoryLang')->where('fiCategory', $catId)->where('fiLanguage', $langId)->value('dtText')
             }}</h1>
@@ -111,7 +119,7 @@
                 </a>
             @endforeach
         </ul>
-        <button id = popupbutton onclick=togglemenu();>toogle</button>
+        <button id = popupbutton onclick=togglemenu();></button>
     </div>
     <div id="timeline">
         @foreach($events as $eventdata)
