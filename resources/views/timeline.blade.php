@@ -29,7 +29,7 @@
             margin-bottom: 4vh;
         }
 
-        li, .whiteRectangle, .test {
+        li, .whiteRectangle {
             display: inline-block;
             list-style-type: none;
             color: white;
@@ -66,13 +66,22 @@
             color: #5F0000;
         }
 
-        #content {
-            position: relative;
+        #languageChoice {
+            position: fixed;
+            top: 2.5%;
+            right: 2.5%;
+            color: white;
+            font-family: Roboto;
+            font-weight: bolder;
+            text-decoration: none !important;
+            font-size: 1.5vw;
         }
-        #content p {
-            position: absolute;
-            top: 0px;
-            right: 0px;
+
+        .langLink {
+            color: white;
+            font-family: Roboto;
+            text-decoration: none;
+            font-size: 1.5vw;
         }
 
     </style>
@@ -81,6 +90,26 @@
 
 <ul id="categoryList">
     <?php
+
+    $amountLanguages = DB::table('Language')->count();
+    $languages = DB::table('Language')->get();
+    $counter = 1;
+
+    echo "<div id='languageChoice'>";
+
+    foreach ($languages as $language) {
+
+        if ($counter != $amountLanguages) {
+            echo "<a class='langLink' href='/Timeline/$language->dtIso_code'>$language->dtIso_code</a> / ";
+        }
+        else {
+            echo "<a class='langLink' href='/Timeline/$language->dtIso_code'>$language->dtIso_code</a>";
+        }
+        $counter++;
+    }
+    //echo "<a href=route('home')>FR</a> / <a href='/Timeline/EN'>EN</a> / <a href='/Timeline/DE'>DE</a>";
+
+    echo "</div>";
 
     $check1 = DB::table('Language')->where('dtIso_code', $languageid)->count();
 
