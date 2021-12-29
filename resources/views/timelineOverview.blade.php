@@ -9,6 +9,7 @@
     <script>
         var verticalOffset = 0;
         var isMenuShown = false;
+        var isMenuDisplayed = false
 
         function openDetails(eventid) {
             document.getElementById("Detailspopup").style.display = "block";
@@ -27,6 +28,9 @@
 
         function togglemenu(){
             console.log("menu Toggle");
+            var menu = document.getElementById("menu");
+            menu.style.top = isMenuShown ? "0vw" : "48vw";
+            isMenuShown = !isMenuShown;
         }
         function copyToClipboard(){
             console.log("Copied the text");
@@ -44,6 +48,7 @@
             console.log("Drawing");
             var canvas = document.getElementById("lineCanvas");
             var timelineArea = document.getElementById("timeline");
+            var startoffset = 100;
             canvas.style.height = timelineArea.scrollHeight+"px";
             canvas.height = timelineArea.scrollHeight;
             canvas.width = window.innerWidth;
@@ -52,23 +57,26 @@
             var width = canvas.width;
             var height = canvas.height;
             var middle = width/2;
-            var segmentcount = document.getElementsByClassName("card").length/4;
+            var segmentcount = document.getElementsByClassName("card").length/2;
             var segmentlength = height/segmentcount;
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.lineWidth = 10;
-            ctx.strokeStyle = 'red';
+            ctx.lineWidth = 15;
+            ctx.strokeStyle = getComputedStyle(document.body).getPropertyValue('--highlightred');
 
             //draw timeline
             ctx.beginPath();
-            ctx.moveTo(middle, 0);//move cursor to top middle
+            ctx.moveTo(width, startoffset);//move cursor to top middle
             var offset = 0;
             var edge;
-            for (let i = 0; i<segmentcount; i++){
-                offset = i * segmentlength;
-                edge = ((i % 2) ? 0 : width);
+            for (let i = 0; i<segmentcount-1; i++){
+                offset = i * segmentlength+startoffset;
+                edge = ((i % 2) ? width : 0);
                 ctx.bezierCurveTo(edge, segmentlength/3+offset, edge, (2*segmentlength)/3+offset, middle, segmentlength+offset);
             }
             ctx.stroke();
+        }
+        function drawpoint(y){
+            var canvas = document.getElementById("lineCanvas");
         }
         addEventListener('load', init);
         addEventListener('resize', drawTimeline);
@@ -100,27 +108,39 @@
     }
 @endphp
 
-    <header style="background-image: url({{url('images/intro_page/Image7_modif.png')}})">
-        <button onclick="copyToClipboard()">
-            Share
-        </button>
-        <h1>{{
-            DB::table('CategoryLang')->where('fiCategory', $catId)->where('fiLanguage', $langId)->value('dtText')
-            }}</h1>
+    <header>
+        <div class="background" id="headerscreen" style="background-image: url({{url('images/intro_page/Image7_modif.png')}})">
+            <button onclick="copyToClipboard()">
+                <div id="SharebuttonText">Share</div>
+                <div class="shareSymbol">
+
+                </div>
+            </button>
+            <h1>
+                {{DB::table('CategoryLang')->where('fiCategory', $catId)->where('fiLanguage', $langId)->value('dtText')}}
+            </h1>
+        </div>
+        <div class="background" ></div>
+        <div id="menu">
+            <div id="languageChoice">
+
+            </div>
+            <ul id="categoryList">
+                @foreach($categories as $category)
+                    <a href= {{route('Timeline', ['category'=> DB::table('CategoryLang')->where('fiLanguage', 1)->where('fiCategory', $category)->first()->dtText, 'languageid' => $languageid])}}>
+                        <li>
+                            <div class='whiteRectangle'></div>
+                            {{DB::table('CategoryLang')->where('fiLanguage', $langId)->where('fiCategory', $category)->first()->dtText}}
+                        </li>
+                    </a>
+                @endforeach
+            </ul>
+            <button id=popupbutton onclick=togglemenu();>
+                <div class="triangle triangle-down"></div>
+            </button>
+        </div>
     </header>
-    <div id="menu">
-        <ul id="categoryList">
-            @foreach($categories as $category)
-                <a href= {{route('Timeline', ['category'=> DB::table('CategoryLang')->where('fiLanguage', 1)->where('fiCategory', $category)->first()->dtText, 'languageid' => $languageid])}}>
-                    <li>
-                        <div class='whiteRectangle'></div>
-                        {{DB::table('CategoryLang')->where('fiLanguage', $langId)->where('fiCategory', $category)->first()->dtText}}
-                    </li>
-                </a>
-            @endforeach
-        </ul>
-        <button id = popupbutton onclick=togglemenu();></button>
-    </div>
+
     <div id="timeline">
         @foreach($events as $eventdata)
             <div class="card alternating_card">
