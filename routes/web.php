@@ -28,4 +28,4 @@ Route::get('/Timeline/{category}/Event/{eventId}/{languageId?}', function ($cate
 
 Route::get('/Timeline/Event/{eventId}/{languageId}', function ($eventId, $languageid) {
     return view('eventDetails',['eventid' => $eventId,'languageid' => $languageid]);
-});
+})->name('Details');

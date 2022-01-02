@@ -39,7 +39,6 @@ header .background button{
     border: none;
     color: var(--backgroundred);
     cursor: pointer;
-    z-index: 10;
 }
 
 header button #SharebuttonText{
@@ -65,7 +64,6 @@ header h1{
     vertical-align: middle;
     font-size: 5vw;
     color: var(--lightred);
-    z-index: 10;
 }
 
 #menu {
@@ -73,7 +71,7 @@ header h1{
     background-color: var(--lightred);
     width: 100%;
     box-shadow: 0 8px 10px 5px rgba(0,0,0,0.1);
-    padding-bottom: 2vh;
+    padding-bottom: 15px;
     height: 48vw;
     top: 0vw;
     z-index: 5;
@@ -92,6 +90,7 @@ header h1{
     font-weight: bold;
     height: inherit;
     padding-left: 0;
+    width: fit-content;
 }
 
 #menu #categoryList a{
@@ -168,6 +167,13 @@ header h1{
     text-align: right;
 }
 
+.langLink {
+    color: white;
+    font-family: Roboto;
+    text-decoration: none;
+    font-size: 1.5vw;
+    cursor: pointer;
+}
 
 #timeline{
     width: 100%;

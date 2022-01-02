@@ -11,12 +11,14 @@
         var isMenuShown = false;
         var isMenuDisplayed = false
 
-        function openDetails(eventid) {
+        async function openDetails(eventId,languageId) {
             document.getElementById("Detailspopup").style.display = "block";
             document.body.style.overflow = "hidden";
             verticalOffset = window.pageYOffset || document.documentElement.scrollTop;
             window.scrollTo(0, 0);
-            {{--document.getElementById("overlay").innerHTML = <?php @include('eventDetails',['eventid' => rand(1,10),'languageid' => 1])?>;--}}
+            //show Details
+            fetch(`/Timeline/Event/${eventId}/${languageId}`)
+                .then(async data => document.getElementById("overlay").innerHTML = await data.text());
         }
 
         // Close the full screen search box
@@ -109,12 +111,10 @@
 @endphp
 
     <header>
-        <div class="background" id="headerscreen" style="background-image: url({{url('images/intro_page/Image7_modif.png')}})">
+        <div class="background" id="headerscreen" style="background-image: url({{url('images/home/Image6_modif@2x.png')}})">
             <button onclick="copyToClipboard()">
                 <div id="SharebuttonText">Share</div>
-                <div class="shareSymbol">
-
-                </div>
+                <img class="shareSymbol" src="{{url('images/intro/Share_Button.png')}}">
             </button>
             <h1>
                 {{DB::table('CategoryLang')->where('fiCategory', $catId)->where('fiLanguage', $langId)->value('dtText')}}
@@ -122,8 +122,17 @@
         </div>
         <div class="background" ></div>
         <div id="menu">
-            <div id="languageChoice">
-
+            <div id="languageChoice" style="cursor: default">
+                @foreach (DB::table('Language')->pluck('dtIso_code') as $language)
+                    @if(strtolower($language) == strtolower($languageid))
+                        {{$language}}
+                    @else
+                        <a class='langLink' href={{route('Timeline', ['category' => $id, 'languageid' => $language])}}>{{$language}}</a>
+                    @endif
+                    @if (!$loop->last)
+                        /
+                    @endif
+                @endforeach
             </div>
             <ul id="categoryList">
                 @foreach($categories as $category)
@@ -147,7 +156,7 @@
                 <h2>{{$eventdata->dtYear}}</h2>
                 <h3>{{$eventdata->dtTitle}}</h3>
                 <p>{{$eventdata->dtDescription}}</p>
-                <button onclick=openDetails({{$eventdata->idEvent}});>Details</button>
+                <button onclick=openDetails({{$eventdata->idEvent}},{{$langId}});>Details</button>
             </div>
         @endforeach
         <canvas id="lineCanvas" width="100%" height="100%"></canvas>
