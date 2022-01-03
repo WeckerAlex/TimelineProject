@@ -12,6 +12,7 @@
         var isMenuDisplayed = false
 
         async function openDetails(eventId,languageId) {
+            console.log("opening");
             document.getElementById("Detailspopup").style.display = "block";
             document.body.style.overflow = "hidden";
             verticalOffset = window.pageYOffset || document.documentElement.scrollTop;
@@ -164,7 +165,7 @@
         <img id="lineCanvas" src="{{url('images/intro/Timeline.svg')}}" alt="" />
 {{--        <canvas id="lineCanvas" width="100%" height="100%"></canvas>--}}
     </div>
-    <div class="lineCanvas" id="Detailspopup" class="overlay">
+    <div id="Detailspopup" class="overlay">
         <span class="closebtn" onclick=closeDetails()>Go back</span>
         <div id="overlay" class="overlay-content">
 
