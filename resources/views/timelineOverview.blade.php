@@ -48,34 +48,37 @@
         }
         function drawTimeline(){
             console.log("Drawing");
-            var canvas = document.getElementById("lineCanvas");
+            // var canvas = document.getElementById("lineCanvas");
             var timelineArea = document.getElementById("timeline");
-            var startoffset = 100;
-            canvas.style.height = timelineArea.scrollHeight+"px";
-            canvas.height = timelineArea.scrollHeight;
-            canvas.width = window.innerWidth;
+            var timelineSVG = document.getElementById("lineCanvas");
+            // var startoffset = 100;
+            // canvas.style.height = timelineArea.scrollHeight+"px";
+            // canvas.height = timelineArea.scrollHeight;
+            // canvas.width = window.innerWidth;
+            timelineSVG.style.height = timelineArea.scrollHeight-2*50+"px";
+            // timelineSVG.style.width = window.innerWidth+"px";
 
-            var ctx = canvas.getContext("2d");
-            var width = canvas.width;
-            var height = canvas.height;
-            var middle = width/2;
-            var segmentcount = document.getElementsByClassName("card").length/2;
-            var segmentlength = height/segmentcount;
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.lineWidth = 15;
-            ctx.strokeStyle = getComputedStyle(document.body).getPropertyValue('--highlightred');
-
-            //draw timeline
-            ctx.beginPath();
-            ctx.moveTo(width, startoffset);//move cursor to top middle
-            var offset = 0;
-            var edge;
-            for (let i = 0; i<segmentcount-1; i++){
-                offset = i * segmentlength+startoffset;
-                edge = ((i % 2) ? width : 0);
-                ctx.bezierCurveTo(edge, segmentlength/3+offset, edge, (2*segmentlength)/3+offset, middle, segmentlength+offset);
-            }
-            ctx.stroke();
+            // var ctx = canvas.getContext("2d");
+            // var width = canvas.width;
+            // var height = canvas.height;
+            // var middle = width/2;
+            // var segmentcount = document.getElementsByClassName("card").length/2;
+            // var segmentlength = height/segmentcount;
+            // ctx.clearRect(0, 0, canvas.width, canvas.height);
+            // ctx.lineWidth = 15;
+            // ctx.strokeStyle = getComputedStyle(document.body).getPropertyValue('--highlightred');
+            //
+            // //draw timeline
+            // ctx.beginPath();
+            // ctx.moveTo(width, startoffset);//move cursor to top middle
+            // var offset = 0;
+            // var edge;
+            // for (let i = 0; i<segmentcount-1; i++){
+            //     offset = i * segmentlength+startoffset;
+            //     edge = ((i % 2) ? width : 0);
+            //     ctx.bezierCurveTo(edge, segmentlength/3+offset, edge, (2*segmentlength)/3+offset, middle, segmentlength+offset);
+            // }
+            // ctx.stroke();
         }
         function drawpoint(y){
             var canvas = document.getElementById("lineCanvas");
@@ -91,7 +94,6 @@
     $check1 = DB::table('Language')->where('dtIso_code', $languageid)->count();
     $check2 = DB::table('CategoryLang')->where('dtText', $id)->where('fiLanguage', 1)->count();
     if ($check1 <> 1 or $check2 <> 1){
-        echo "Problem";
         header("Location: ".route("home"));
         exit();
     }
@@ -159,9 +161,10 @@
                 <button onclick=openDetails({{$eventdata->idEvent}},{{$langId}});>Details</button>
             </div>
         @endforeach
-        <canvas id="lineCanvas" width="100%" height="100%"></canvas>
+        <img id="lineCanvas" src="{{url('images/intro/Timeline.svg')}}" alt="" />
+{{--        <canvas id="lineCanvas" width="100%" height="100%"></canvas>--}}
     </div>
-    <div id="Detailspopup" class="overlay">
+    <div class="lineCanvas" id="Detailspopup" class="overlay">
         <span class="closebtn" onclick=closeDetails()>Go back</span>
         <div id="overlay" class="overlay-content">
 

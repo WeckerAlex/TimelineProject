@@ -1,6 +1,6 @@
 :root {
     --borderdistance: 10%;
-    --linewidth:15%;
+    --linewidth:40%;
 }
 
 * {
@@ -182,11 +182,14 @@ header h1{
 
 #lineCanvas{
     position: absolute;
-    top: 0px;
-    bottom: 0px;
     width: var(--linewidth);
-    left: calc(50% - var(--linewidth)/2);
+    margin: 0 calc((100% - var(--linewidth))/2);
     z-index: 0;
+    height: 0px;
+    object-fit: cover;
+    object-position: top;
+    top: 50px;
+    transition: height 2s;
 }
 
 .card{
