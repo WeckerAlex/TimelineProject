@@ -7,11 +7,11 @@
     <link rel="stylesheet" type="text/css" href="{{ URL('css/colors.css') }}">
     <title>LAM125 - Event</title>
     <style>
-        headfonts, descriptionContent{
+        .headfonts, .descriptionContent{
             text-align: left;
             font-family: Roboto;
             font-style: normal;
-            color: #FFFFFF;
+            color: #ffffff;
         }
 
         .descriptionContent{
