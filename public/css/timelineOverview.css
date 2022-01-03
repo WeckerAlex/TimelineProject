@@ -35,7 +35,7 @@ header .background button{
     top: 10px;
     left: 10px;
     font-size: 1em;
-    background-color: hsla(0, 52%, 39%,0%);
+    background-color: hsla(0, 52%, 39%, 0);
     border: none;
     color: var(--backgroundred);
     cursor: pointer;
@@ -178,6 +178,10 @@ header h1{
 #timeline{
     width: 100%;
     position: relative;
+}
+
+#timeline div{
+    z-index: 1;
 }
 
 #lineCanvas{
