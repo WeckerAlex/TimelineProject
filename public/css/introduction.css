@@ -106,6 +106,7 @@ li, .whiteRectangle {
     transition: 0.2s;
     width: 17vw;
     margin-top: 0;
+    z-index: 1;
 }
 
 #categoryList a:hover li > .whiteRectangle {
