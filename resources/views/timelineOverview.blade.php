@@ -9,10 +9,8 @@
     <script>
         var verticalOffset = 0;
         var isMenuShown = false;
-        var isMenuDisplayed = false
-
+        var isMenuDisplayed = false;
         async function openDetails(eventId,languageId) {
-            console.log("opening");
             document.getElementById("Detailspopup").style.display = "block";
             document.body.style.overflow = "hidden";
             verticalOffset = window.pageYOffset || document.documentElement.scrollTop;
@@ -46,40 +44,19 @@
     <script>
         function init() {
             drawTimeline();
+            var eventSelected = {{is_null($eventId) ? "false" : "true"}};
+            var eventId = {{is_null($eventId) ? 0 : $eventId}};
+            var eventelement = document.getElementById("Event"+eventId);
+            var offset = eventelement.offsetTop;
+            scroll(0, offset);
+            if (eventSelected){
+                openDetails(eventId,{{$langId}});
+            }
         }
         function drawTimeline(){
-            console.log("Drawing");
-            // var canvas = document.getElementById("lineCanvas");
             var timelineArea = document.getElementById("timeline");
             var timelineSVG = document.getElementById("lineCanvas");
-            // var startoffset = 100;
-            // canvas.style.height = timelineArea.scrollHeight+"px";
-            // canvas.height = timelineArea.scrollHeight;
-            // canvas.width = window.innerWidth;
             timelineSVG.style.height = timelineArea.scrollHeight-2*50+"px";
-            // timelineSVG.style.width = window.innerWidth+"px";
-
-            // var ctx = canvas.getContext("2d");
-            // var width = canvas.width;
-            // var height = canvas.height;
-            // var middle = width/2;
-            // var segmentcount = document.getElementsByClassName("card").length/2;
-            // var segmentlength = height/segmentcount;
-            // ctx.clearRect(0, 0, canvas.width, canvas.height);
-            // ctx.lineWidth = 15;
-            // ctx.strokeStyle = getComputedStyle(document.body).getPropertyValue('--highlightred');
-            //
-            // //draw timeline
-            // ctx.beginPath();
-            // ctx.moveTo(width, startoffset);//move cursor to top middle
-            // var offset = 0;
-            // var edge;
-            // for (let i = 0; i<segmentcount-1; i++){
-            //     offset = i * segmentlength+startoffset;
-            //     edge = ((i % 2) ? width : 0);
-            //     ctx.bezierCurveTo(edge, segmentlength/3+offset, edge, (2*segmentlength)/3+offset, middle, segmentlength+offset);
-            // }
-            // ctx.stroke();
         }
         function drawpoint(y){
             var canvas = document.getElementById("lineCanvas");
@@ -91,28 +68,6 @@
 </head>
 
 <body>
-@php
-    $check1 = DB::table('Language')->where('dtIso_code', $languageid)->count();
-    $check2 = DB::table('CategoryLang')->where('dtText', $id)->where('fiLanguage', 1)->count();
-    if ($check1 <> 1 or $check2 <> 1){
-        header("Location: ".route("home"));
-        exit();
-    }
-    $langId = DB::table('Language')->where('dtIso_code', $languageid)->value('idLanguage');
-    $catId = DB::table('CategoryLang')->where('dtText', $id)->where('fiLanguage', 1)->value('fiCategory');
-    $categories = DB::table('CategoryLang')->where('fiLanguage', $langId)->pluck('fiCategory');
-    $events = DB::table('EventCategory')
-                        ->where('fiCategory', $catId)
-                        ->leftJoin('Event', 'EventCategory.fiEvent', '=', 'Event.idEvent')
-                        ->leftJoin('EventLang', 'EventCategory.fiEvent', '=', 'EventLang.fiEvent')
-                        ->where('fiLanguage', $langId)
-                        ->orderBy('dtYear', 'asc')
-                        ->get();
-    function test(){
-
-    }
-@endphp
-
     <header>
         <div class="background" id="headerscreen" style="background-image: url({{url('images/home/Image6_modif@2x.png')}})">
             <button onclick="copyToClipboard()">
@@ -127,10 +82,10 @@
         <div id="menu">
             <div id="languageChoice" style="cursor: default">
                 @foreach (DB::table('Language')->pluck('dtIso_code') as $language)
-                    @if(strtolower($language) == strtolower($languageid))
+                    @if(strtolower($language) == strtolower($languagetxt))
                         {{$language}}
                     @else
-                        <a class='langLink' href={{route('Timeline', ['category' => $id, 'languageid' => $language])}}>{{$language}}</a>
+                        <a class='langLink' href={{route('Timeline', ['category' => $categorytxt, 'languageid' => $language])}}>{{$language}}</a>
                     @endif
                     @if (!$loop->last)
                         /
@@ -139,7 +94,7 @@
             </div>
             <ul id="categoryList">
                 @foreach($categories as $category)
-                    <a href= {{route('Timeline', ['category'=> DB::table('CategoryLang')->where('fiLanguage', 1)->where('fiCategory', $category)->first()->dtText, 'languageid' => $languageid])}}>
+                    <a href= {{route('Timeline', ['category'=> DB::table('CategoryLang')->where('fiLanguage', 1)->where('fiCategory', $category)->first()->dtText, 'languageid' => $languagetxt])}}>
                         <li>
                             <div class='whiteRectangle'></div>
                             {{DB::table('CategoryLang')->where('fiLanguage', $langId)->where('fiCategory', $category)->first()->dtText}}
@@ -155,7 +110,7 @@
 
     <div id="timeline">
         @foreach($events as $eventdata)
-            <div class="card alternating_card">
+            <div id="Event{{$eventdata->idEvent}}" class="card alternating_card">
                 <h2>{{$eventdata->dtYear}}</h2>
                 <h3>{{$eventdata->dtTitle}}</h3>
                 <p>{{$eventdata->dtDescription}}</p>
@@ -163,7 +118,6 @@
             </div>
         @endforeach
         <img id="lineCanvas" src="{{url('images/intro/Timeline.svg')}}" alt="" />
-{{--        <canvas id="lineCanvas" width="100%" height="100%"></canvas>--}}
     </div>
     <div id="Detailspopup" class="overlay">
         <span class="closebtn" onclick=closeDetails()>Go back</span>
@@ -173,4 +127,3 @@
     </div>
 </body>
 </html>
-
