@@ -137,6 +137,10 @@ li, .whiteRectangle {
     font-size: 1.5vw;
 }
 
+.langLink:hover{
+    color: #5F0000;
+}
+
 /* Splash screen */
 
 .splashScreen {
