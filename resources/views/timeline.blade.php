@@ -32,7 +32,7 @@
         }
 
         if ($counter != $amountLanguages)
-            echo " /";
+            echo " / ";
 
         $counter++;
 
