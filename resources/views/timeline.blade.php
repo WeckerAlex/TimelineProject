@@ -10,6 +10,10 @@
 </head>
 <body>
 
+<!--<div class="splashScreen">
+    <span class="lam">LAM EN CHIFFRE</span>
+    <span class="lam2">FUTUR</span>
+</div>-->
 <ul id="categoryList">
     <?php
 
@@ -21,15 +25,18 @@
 
     foreach ($languages as $language) {
 
-        if ($counter != $amountLanguages) {
-            echo "<a class='langLink' href='/Timeline/$language->dtIso_code'>$language->dtIso_code</a> / ";
-        } else {
+        if ($language->dtIso_code != $languageid) {
             echo "<a class='langLink' href='/Timeline/$language->dtIso_code'>$language->dtIso_code</a>";
+        } else {
+            echo "<u>$language->dtIso_code</u>";
         }
+
+        if ($counter != $amountLanguages)
+            echo " / ";
+
         $counter++;
 
     }
-
 
     echo "</div>";
 
@@ -41,7 +48,6 @@
     }
 
     $langId = DB::table('Language')->where('dtIso_code', $languageid)->value('idLanguage');
-
 
 
     $categories = DB::table('CategoryLang')->where('fiLanguage', $langId)->get();
@@ -56,7 +62,13 @@
         $url = route('Timeline', ['category' => $categoryText, 'languageid' => $languageid]);
         echo "<a href=$url><li><div class='whiteRectangle'></div>";
         echo $category->dtText;
-        echo "<img class='draftImg' src='../../images/intro/Image1_modif.png'></li></a>";
+
+
+        $categoryImage = DB::table('Media')->where('idMedia', DB::table('Category')->where('idCategory', $category->fiCategory)->value('fiMedia'))->get();
+
+        foreach ($categoryImage as $image) {
+            echo "<img class='draftImg' src='../../images/home/$image->dtPath'></li></a>";
+        }
 
     }
     ?>
