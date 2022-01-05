@@ -13,6 +13,7 @@ use App\Http\Controllers\TimelineController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 Route::get('/', function () {
     return redirect('/Timeline');
 });
@@ -35,12 +36,12 @@ Route::get('/Timeline/{category}/{languageid?}', [TimelineController::class, 'ge
 //    return view('timelineOverview',['id'=> $category,'eventId' => $eventId, 'languageid' => $languageid]);
 //});
 
-Route::get('/Timeline/{category}/Event/{eventId}/{languageId?}', [TimelineController::class, 'getTimelineWithEvent']);
+Route::get('/Timeline/{category}/Event/{eventId}/{languageId?}', [TimelineController::class, 'getTimelineWithEvent'])->name('TimelinewithEvent');
 
 
 
 
-
+//Details popover Content
 Route::get('/Timeline/Event/{eventId}/{languageId}', function ($eventId, $languageid) {
     return view('eventDetails',['eventid' => $eventId,'languageid' => $languageid]);
 })->name('Details');
