@@ -11,6 +11,8 @@
 <body>
 
 {{--<div class="splashScreen">--}}
+{{--    <img id="test" src='../../images/intro/Image3_modif.png'>--}}
+{{--    <img id="test2" src='../../images/intro/Image1_modif.png'>--}}
 {{--    <span id="firstTextAnimation">LAM EN CHIFFRE</span>--}}
 {{--    <span id="secondTextAnimation">FUTUR</span>--}}
 {{--</div>--}}
@@ -79,49 +81,48 @@
     }
 
     ?>
-{{--    <script>--}}
+    <script>
 
-{{--        let firstText = document.getElementById("firstTextAnimation");--}}
-{{--        let secondText = document.getElementById("secondTextAnimation");--}}
-{{--        let categoryArray = <?php echo json_encode($categoryArray);?>;--}}
-{{--        let counter = -2;--}}
-{{--        let secondCounter = -1;--}}
-
-
-{{--        function swapText() {--}}
-
-{{--            if (counter + 2 < (categoryArray.length)) {--}}
-{{--                counter = counter + 2;--}}
-{{--                firstText.textContent = categoryArray[counter];--}}
-{{--            } else {--}}
-{{--                counter = counter + 2 - categoryArray.length;--}}
-{{--                firstText.textContent = categoryArray[counter];--}}
-{{--            }--}}
-
-{{--        }--}}
-
-{{--        function swapSecondText() {--}}
-
-{{--            if (secondCounter + 2 < (categoryArray.length)) {--}}
-{{--                secondCounter = secondCounter + 2;--}}
-{{--                secondText.textContent = categoryArray[secondCounter];--}}
-{{--            } else {--}}
-{{--                secondCounter = secondCounter + 2 - categoryArray.length;--}}
-{{--                secondText.textContent = categoryArray[secondCounter];--}}
-{{--            }--}}
-
-{{--        }--}}
-
-{{--        setInterval(swapText, 8000)--}}
-{{--        swapText();--}}
-
-{{--        setTimeout(function () {--}}
-{{--            setInterval(swapSecondText, 8000)--}}
-{{--            swapSecondText();--}}
-{{--        }, 4000);--}}
+        let firstText = document.getElementById("firstTextAnimation");
+        let secondText = document.getElementById("secondTextAnimation");
+        let categoryArray = <?php echo json_encode($categoryArray);?>;
+        let counter = -2;
+        let secondCounter = -1;
 
 
-{{--    </script>--}}
+        function swapText() {
+
+            if (counter + 2 < (categoryArray.length)) {
+                counter = counter + 2;
+                firstText.textContent = categoryArray[counter];
+            } else {
+                counter = counter + 2 - categoryArray.length;
+                firstText.textContent = categoryArray[counter];
+            }
+
+        }
+
+        function swapSecondText() {
+
+            if (secondCounter + 2 < (categoryArray.length)) {
+                secondCounter = secondCounter + 2;
+                secondText.textContent = categoryArray[secondCounter];
+            } else {
+                secondCounter = secondCounter + 2 - categoryArray.length;
+                secondText.textContent = categoryArray[secondCounter];
+            }
+
+        }
+
+        setInterval(swapText, 8000)
+        swapText();
+
+        setTimeout(function () {
+            setInterval(swapSecondText, 8000)
+            swapSecondText();
+        }, 4000);
+
+    </script>
 </ul>
 </body>
 </html>
