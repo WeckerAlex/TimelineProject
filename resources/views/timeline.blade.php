@@ -10,23 +10,28 @@
 </head>
 <body>
 
-<!--<div class="splashScreen">
-    <span class="lam">LAM EN CHIFFRE</span>
-    <span class="lam2">FUTUR</span>
-</div>-->
+{{--<div class="splashScreen">--}}
+{{--    <span id="firstTextAnimation">LAM EN CHIFFRE</span>--}}
+{{--    <span id="secondTextAnimation">FUTUR</span>--}}
+{{--</div>--}}
+
 <ul id="categoryList">
     <?php
 
     $amountLanguages = DB::table('Language')->count();
     $languages = DB::table('Language')->get();
     $counter = 1;
+    $categoryArray = array();
 
     echo "<div id='languageChoice'>";
 
     foreach ($languages as $language) {
 
         if ($language->dtIso_code != $languageid) {
-            echo "<a class='langLink' href='/Timeline/$language->dtIso_code'>$language->dtIso_code</a>";
+            if (strtolower($language->dtIso_code) == $languageid)
+                echo "<u>$language->dtIso_code</u>";
+            else
+                echo "<a class='langLink' href='/Timeline/$language->dtIso_code'>$language->dtIso_code</a>";
         } else {
             echo "<u>$language->dtIso_code</u>";
         }
@@ -53,6 +58,8 @@
     $categories = DB::table('CategoryLang')->where('fiLanguage', $langId)->get();
     foreach ($categories as $category) {
 
+        array_push($categoryArray, $category->dtText);
+
         $french = DB::table('CategoryLang')->where('fiLanguage', 1)->where('fiCategory', $category->fiCategory)->get();
 
         foreach ($french as $frenchText) {
@@ -63,7 +70,6 @@
         echo "<a href=$url><li><div class='whiteRectangle'></div>";
         echo $category->dtText;
 
-
         $categoryImage = DB::table('Media')->where('idMedia', DB::table('Category')->where('idCategory', $category->fiCategory)->value('fiMedia'))->get();
 
         foreach ($categoryImage as $image) {
@@ -71,7 +77,51 @@
         }
 
     }
+
     ?>
+{{--    <script>--}}
+
+{{--        let firstText = document.getElementById("firstTextAnimation");--}}
+{{--        let secondText = document.getElementById("secondTextAnimation");--}}
+{{--        let categoryArray = <?php echo json_encode($categoryArray);?>;--}}
+{{--        let counter = -2;--}}
+{{--        let secondCounter = -1;--}}
+
+
+{{--        function swapText() {--}}
+
+{{--            if (counter + 2 < (categoryArray.length)) {--}}
+{{--                counter = counter + 2;--}}
+{{--                firstText.textContent = categoryArray[counter];--}}
+{{--            } else {--}}
+{{--                counter = counter + 2 - categoryArray.length;--}}
+{{--                firstText.textContent = categoryArray[counter];--}}
+{{--            }--}}
+
+{{--        }--}}
+
+{{--        function swapSecondText() {--}}
+
+{{--            if (secondCounter + 2 < (categoryArray.length)) {--}}
+{{--                secondCounter = secondCounter + 2;--}}
+{{--                secondText.textContent = categoryArray[secondCounter];--}}
+{{--            } else {--}}
+{{--                secondCounter = secondCounter + 2 - categoryArray.length;--}}
+{{--                secondText.textContent = categoryArray[secondCounter];--}}
+{{--            }--}}
+
+{{--        }--}}
+
+{{--        setInterval(swapText, 8000)--}}
+{{--        swapText();--}}
+
+{{--        setTimeout(function () {--}}
+{{--            setInterval(swapSecondText, 8000)--}}
+{{--            swapSecondText();--}}
+{{--        }, 4000);--}}
+
+
+{{--    </script>--}}
 </ul>
 </body>
 </html>
