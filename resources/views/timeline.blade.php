@@ -67,8 +67,9 @@
         foreach ($french as $frenchText) {
             $categoryText = $frenchText->dtText;
         }
-
-        $url = route('Timeline', ['category' => $categoryText, 'languageid' => $languageid]);
+        
+        $removeSpaces = str_replace(' ', '_', $categoryText);
+        $url = route('Timeline', ['category' => $removeSpaces, 'languageid' => $languageid]);
         echo "<a href=$url><li><div class='whiteRectangle'></div>";
         echo $category->dtText;
 
