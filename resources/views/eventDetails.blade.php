@@ -33,6 +33,15 @@
             margin-left: 3%;
         }
 
+        #eventImg{
+            border-radius: 8px;
+            display: block;
+            margin-top: 5vh;
+            margin-left: auto;
+            margin-right: auto;
+            width: 20%;
+        }
+
     </style>
 </head>
 <body>
@@ -49,6 +58,12 @@
         echo "<div><span id='title' class='headfonts'>".$singleEvent->dtTitle."</span></div>";
         echo "<p class='descriptionContent'>".$singleEvent->dtDescription."</p>";
         echo "<p class='descriptionContent'>".$singleEvent->dtContent."</p>";
+    }
+
+    $categoryImage = DB::table('Media')->where('fiEvent', $eventid)->get();
+
+    foreach ($categoryImage as $image) {
+        echo "<img id='eventImg' src='../../images/gallerie/$image->dtPath'></li></a>";
     }
 
     ?>
