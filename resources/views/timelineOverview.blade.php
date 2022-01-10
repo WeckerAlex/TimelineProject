@@ -30,7 +30,7 @@
         function togglemenu(){
             console.log("menu Toggle");
             var menu = document.getElementById("menu");
-            menu.style.top = isMenuShown ? "0vw" : "48vw";
+            menu.style.top = isMenuShown ? 'calc(48vw - var(--menuheight))' : "48vw";
             isMenuShown = !isMenuShown;
         }
         function copyToClipboard(){
@@ -44,10 +44,10 @@
     <script>
         function init() {
             drawTimeline();
-            var eventSelected = {{is_null($eventId) ? "false" : "true"}};
-            var eventId = {{is_null($eventId) ? 0 : $eventId}};
-            var eventelement = document.getElementById("Event"+eventId);
-            var offset = eventelement.offsetTop;
+            const eventSelected = {{is_null($eventId) ? "false" : "true"}};
+            const eventId = {{is_null($eventId) ? 0 : $eventId}};
+            const eventelement = document.getElementById("Event" + eventId);
+            const offset = eventelement.offsetTop;
             scroll(0, offset);
             if (eventSelected){
                 openDetails(eventId,{{$langId}});
@@ -69,17 +69,11 @@
 
 <body>
     <header>
-        <div class="background" id="headerscreen" style="background-image: url({{url('images/home/Image6_modif@2x.png')}})">
+        <div class="background" id="headerscreen" style="background-image: url({{url('images/intro/'.$imagePath)}})">
             <button onclick="copyToClipboard()">
                 <div id="SharebuttonText">Share</div>
                 <img class="shareSymbol" src="{{url('images/intro/Share_Button.png')}}">
             </button>
-            <h1>
-                {{DB::table('CategoryLang')->where('fiCategory', $catId)->where('fiLanguage', $langId)->value('dtText')}}
-            </h1>
-        </div>
-        <div class="background" ></div>
-        <div id="menu">
             <div id="languageChoice" style="cursor: default">
                 @foreach (DB::table('Language')->pluck('dtIso_code') as $language)
                     @if(strtolower($language) == strtolower($languagetxt))
@@ -92,9 +86,15 @@
                     @endif
                 @endforeach
             </div>
+            <h1>
+                {{DB::table('CategoryLang')->where('fiCategory', $catId)->where('fiLanguage', $langId)->value('dtText')}}
+            </h1>
+        </div>
+        <div class="background" ></div>
+        <div id="menu">
             <ul id="categoryList">
                 @foreach($categories as $category)
-                    <a href= {{route('Timeline', ['category'=> DB::table('CategoryLang')->where('fiLanguage', 1)->where('fiCategory', $category)->first()->dtText, 'languageid' => $languagetxt])}}>
+                    <a href= {{route('Timeline', ['category'=> str_replace(" ", "_",DB::table('CategoryLang')->where('fiLanguage', 1)->where('fiCategory', $category)->first()->dtText), 'languageid' => $languagetxt])}}>
                         <li>
                             <div class='whiteRectangle'></div>
                             {{DB::table('CategoryLang')->where('fiLanguage', $langId)->where('fiCategory', $category)->first()->dtText}}
@@ -114,7 +114,12 @@
                 <h2>{{$eventdata->dtYear}}</h2>
                 <h3>{{$eventdata->dtTitle}}</h3>
                 <p>{{$eventdata->dtDescription}}</p>
-                <button onclick=openDetails({{$eventdata->idEvent}},{{$langId}});>Details</button>
+                <button onclick=openDetails({{$eventdata->idEvent}},{{$langId}});>
+                    Details
+{{--                    <span class="btn-overlay">--}}
+{{--                        <i class="fa fa-refresh fa-spin"></i>--}}
+{{--                    </span>--}}
+                </button>
             </div>
         @endforeach
         <img id="lineCanvas" src="{{url('images/intro/Timeline.svg')}}" alt="" />
