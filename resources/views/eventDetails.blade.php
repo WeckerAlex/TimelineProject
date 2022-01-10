@@ -33,15 +33,14 @@
             margin-left: 3%;
         }
 
-        #eventImg{
+        #eventImg, figure{
             border-radius: 8px;
             display: block;
             margin-top: 5vh;
             margin-left: auto;
             margin-right: auto;
-            width: 20%;
+            width: 20vw;
         }
-
     </style>
 </head>
 <body>
@@ -63,10 +62,13 @@
     $categoryImage = DB::table('Media')->where('fiEvent', $eventid)->get();
 
     foreach ($categoryImage as $image) {
-        echo "<img id='eventImg' src='../../images/gallerie/$image->dtPath'></li></a>";
+        $copyright="&#169";
+        if($image->dtCopyright== null || $image->dtCopyright == ""){
+            $copyright="";
+        }
+        echo "<figure><img id='eventImg' src='../../images/gallerie/$image->dtPath'><caption>$copyright $image->dtCopyright</caption></figure>";
     }
 
     ?>
 </body>
 </html>
-
