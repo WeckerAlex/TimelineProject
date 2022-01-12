@@ -93,7 +93,7 @@ if (!isset($_COOKIE[$cookie_name])) {
 
         foreach ($categoryImage as $image) {
 
-            $categoriesLast = DB::table('CategoryLang')->where('fiLanguage', $langId)->orderby('fiCategory','DESC')->first("dtText");
+            $categoriesLast = DB::table('CategoryLang')->where('fiLanguage', $langId)->orderby('fiCategory', 'DESC')->first("dtText");
 
             foreach ($categoriesLast as $last) {
                 $lastItem = $last;
@@ -135,7 +135,7 @@ if (!isset($_COOKIE[$cookie_name])) {
 
         function swapText() {
 
-            if(firstText != null) {
+            if (firstText != null) {
 
                 if (counter + 2 < (categoryArray.length)) {
                     counter = counter + 2;
@@ -184,8 +184,7 @@ if (!isset($_COOKIE[$cookie_name])) {
                         document.getElementById("splashScreen").style.display = "none";
                     }
                 }
-            }
-            else
+            } else
                 clearInterval(firstInter);
         }
 
@@ -198,7 +197,7 @@ if (!isset($_COOKIE[$cookie_name])) {
 
         function swapSecondText() {
 
-            if(secondText != null) {
+            if (secondText != null) {
 
                 if (secondCounter + 2 < (categoryArray.length)) {
 
@@ -249,8 +248,7 @@ if (!isset($_COOKIE[$cookie_name])) {
                         document.getElementById("splashScreen").style.display = "none";
                     }
                 }
-            }
-            else
+            } else
                 clearInterval(secondInter);
         }
 
