@@ -1,6 +1,7 @@
 :root {
     --borderdistance: 10%;
     --linewidth:40%;
+    --menuheight: 25vw;
 }
 
 * {
@@ -72,8 +73,8 @@ header h1{
     width: 100%;
     box-shadow: 0 8px 10px 5px rgba(0,0,0,0.1);
     padding-bottom: 15px;
-    height: 48vw;
-    top: 0vw;
+    height: var(--menuheight);
+    top: calc(48vw - var(--menuheight));
     z-index: 5;
     transition: top 0.2s;
     display: flex;
@@ -103,12 +104,19 @@ header h1{
     list-style-type: none;
     color: white;
     font-family: Roboto;
-    font-size: 3vw;
+    font-size: 2vw;
     font-weight: bolder;
     transition: 0.3s;
     vertical-align: middle;
 }
 
+#categoryList a:hover li > .whiteRectangle {
+    background-color: var(--highlightred);
+}
+
+#menu #categoryList a:hover li{
+    color: var(--highlightred);
+}
 /*#menu #categoryList li:hover {*/
 /*    color: var(--highlightred);*/
 /*}*/
@@ -159,7 +167,7 @@ header h1{
     position: absolute;
     top: 2.5%;
     right: 2.5%;
-    color: white;
+    color: var(--langLinkColor);
     font-family: Roboto;
     font-weight: bolder;
     text-decoration: none !important;
@@ -168,11 +176,15 @@ header h1{
 }
 
 .langLink {
-    color: white;
+    color: var(--langLinkColor);
     font-family: Roboto;
     text-decoration: none;
     font-size: 1.5vw;
     cursor: pointer;
+}
+
+.langLink:hover{
+    color: var(--highlightred);
 }
 
 #timeline{
@@ -196,6 +208,12 @@ header h1{
     transition: height 2s;
 }
 
+@media only screen and (max-width: 900px) {
+    #lineCanvas{
+        margin-left: 0;
+    }
+}
+
 .card{
     position: relative;
     width: 30%;
@@ -208,12 +226,12 @@ header h1{
     right: var(--borderdistance);
     clear:both;
 }
-
-.alternating_card:nth-of-type(2n){
-    float:left;
-    left: var(--borderdistance);
+@media only screen and (min-width: 900px) {
+    .alternating_card:nth-of-type(2n) {
+        float: left;
+        left: var(--borderdistance);
+    }
 }
-
 .card h2{
     font-size: 1em;
 }
@@ -230,6 +248,7 @@ header h1{
 }
 
 .card button{
+    position: relative;
     background-color: var(--backgroundred);
     border: 2px solid var(--backgroundred);
     border-radius: 20px;
@@ -244,7 +263,23 @@ header h1{
     font-weight: lighter;
 }
 
+/*.btn-overlay {*/
+/*    position: absolute;*/
+/*    padding: 0;*/
+/*    top: -2px;*/
+/*    left: -2px;*/
+/*    border: 2px solid white;*/
+/*    border-radius: 20px;*/
+/*    width: 100%;*/
+/*    height: 100%;*/
+/*    background-color: #ffffff;*/
+/*    opacity: 1;*/
+/*    transition: width 1s;*/
+/*}*/
 
+.card button:hover > span{
+    width: 0;
+}
 
 .overlay {
     min-height: 100%;
