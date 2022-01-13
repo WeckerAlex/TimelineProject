@@ -1,21 +1,34 @@
-<!DOCTYPE html>
+<?php
+$cookie_name = "playSplash";
+$cookie_value = "No";
+
+if (!isset($_COOKIE[$cookie_name])) {
+    setcookie($cookie_name, $cookie_value, time() + (86400 * 1 / 8), "/"); // 86400 = 1 day
+}
+?>
+        <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{{ URL('css/introduction.css') }}">
-<!--<link rel="stylesheet" type="text/css" href="{{ URL('css/colors.css') }}">-->
     <title>LAM125 - Introduction</title>
+    <link rel="shortcut icon" href="../../images/LTAM-logo.png">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
 
-{{--<div class="splashScreen">--}}
-{{--    <img id="test" src='../../images/intro/Image3_modif.png'>--}}
-{{--    <img id="test2" src='../../images/intro/Image1_modif.png'>--}}
-{{--    <span id="firstTextAnimation">LAM EN CHIFFRE</span>--}}
-{{--    <span id="secondTextAnimation">FUTUR</span>--}}
-{{--</div>--}}
+@if(!isset($_COOKIE["playSplash"]))
+    <div id="splashScreen">
+        <img id="topLeftImage" src='../../images/intro/Image3_modif.png'>
+        <img id="topRightImage" src='../../images/intro/Image1_modif.png'>
+        <img id="bottomLeftImage" src='../../images/intro/Image5_modif.png'>
+        <img id="bottomRightImage" src='../../images/intro/Image2_modif.png'>
+        <span id="firstTextAnimation">LAM EN CHIFFRE</span>
+        <span id="secondTextAnimation">FUTUR</span>
+    </div>
+@endif
 
 <ul id="categoryList">
     <?php
@@ -24,6 +37,8 @@
     $languages = DB::table('Language')->get();
     $counter = 1;
     $categoryArray = array();
+    $imageArray = array();
+    $lastItem = "";
 
     echo "<div id='languageChoice'>";
 
@@ -39,7 +54,7 @@
         }
 
         if ($counter != $amountLanguages)
-            echo " / ";
+            echo " <span id='slash'>/</span> ";
 
         $counter++;
 
@@ -67,7 +82,7 @@
         foreach ($french as $frenchText) {
             $categoryText = $frenchText->dtText;
         }
-        
+
         $removeSpaces = str_replace(' ', '_', $categoryText);
         $url = route('Timeline', ['category' => $removeSpaces, 'languageid' => $languageid]);
         echo "<a href=$url><li><div class='whiteRectangle'></div>";
@@ -76,55 +91,31 @@
         $categoryImage = DB::table('Media')->where('idMedia', DB::table('Category')->where('idCategory', $category->fiCategory)->value('fiMedia'))->get();
 
         foreach ($categoryImage as $image) {
-            echo "<img class='draftImg' src='../../images/home/$image->dtPath'></li></a>";
+
+            $categoriesLast = DB::table('CategoryLang')->where('fiLanguage', $langId)->orderby('fiCategory', 'DESC')->first("dtText");
+
+            foreach ($categoriesLast as $last) {
+                $lastItem = $last;
+            }
+
+            if ($lastItem == $category->dtText)
+                echo "<img class='draftImg' src='../../images/home/$image->dtPath'></li></a>";
+            else
+                echo "</li><img class='draftImg' src='../../images/home/$image->dtPath'></a>";
+            array_push($imageArray, $image->dtPath);
         }
 
     }
 
     ?>
-    <script>
-
-        let firstText = document.getElementById("firstTextAnimation");
-        let secondText = document.getElementById("secondTextAnimation");
-        let categoryArray = <?php echo json_encode($categoryArray);?>;
-        let counter = -2;
-        let secondCounter = -1;
-
-
-        function swapText() {
-
-            if (counter + 2 < (categoryArray.length)) {
-                counter = counter + 2;
-                firstText.textContent = categoryArray[counter];
-            } else {
-                counter = counter + 2 - categoryArray.length;
-                firstText.textContent = categoryArray[counter];
-            }
-
-        }
-
-        function swapSecondText() {
-
-            if (secondCounter + 2 < (categoryArray.length)) {
-                secondCounter = secondCounter + 2;
-                secondText.textContent = categoryArray[secondCounter];
-            } else {
-                secondCounter = secondCounter + 2 - categoryArray.length;
-                secondText.textContent = categoryArray[secondCounter];
-            }
-
-        }
-
-        setInterval(swapText, 8000)
-        swapText();
-
-        setTimeout(function () {
-            setInterval(swapSecondText, 8000)
-            swapSecondText();
-        }, 4000);
-
-    </script>
 </ul>
+
+<script>
+    let categoryArray = <?php echo json_encode($categoryArray);?>;
+    let imageArray = <?php echo json_encode($imageArray);?>;
+</script>
+<script src="{{ URL('js/timeline_intro.js') }}" defer></script>
+
 </body>
 </html>
 
