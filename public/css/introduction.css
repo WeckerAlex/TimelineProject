@@ -105,7 +105,6 @@ li, .whiteRectangle {
 /* on hover list item and image */
 
 @media all and (min-width: 481px) {
-
     #categoryList a:hover > .draftImg {
         transition: 0.2s;
         width: 17vw;
@@ -138,8 +137,8 @@ li, .whiteRectangle {
 
 /* Multilingual */
 #languageChoice {
-    position: fixed;
-    top: 2.5%;
+    position: absolute;
+    top: 0;
     right: 2.5%;
     color: white;
     font-family: Roboto;
@@ -172,18 +171,6 @@ li, .whiteRectangle {
     animation-name: splashScreen;
     animation-duration: 1s;
     animation-delay: 23.7s;
-}
-
-#skip {
-    position: fixed;
-    z-index: 2;
-    bottom: 2vw;
-    right: 2vw;
-    font-size: 1.5vw;
-    text-decoration: underline;
-    color: black;
-    font-weight: bolder;
-    cursor: pointer;
 }
 
 #firstTextAnimation {
@@ -236,16 +223,16 @@ li, .whiteRectangle {
         font-size: 0vw;
         opacity: 0;
     }
-    57.143% {
+    50% {
         opacity: 1;
     }
     57.2% {
         opacity: 0;
-        font-size: 100vw;
+        font-size: 70vw;
     }
     100% {
         opacity: 0;
-        font-size: 100vw;
+        font-size: 70vw;
     }
 }
 
@@ -254,7 +241,7 @@ li, .whiteRectangle {
     width: 0vw;
     animation: infinite ease-in;
     animation-name: topLeftImage;
-    animation-duration: 3.450s;
+    animation-duration: 3.5s;
     opacity: 1;
     visibility: hidden;
 }
@@ -279,7 +266,7 @@ li, .whiteRectangle {
     width: 0vw;
     animation: infinite ease-in;
     animation-name: topRightImage;
-    animation-duration: 3.450s;
+    animation-duration: 3.5s;
     opacity: 1;
     visibility: hidden;
 }
@@ -304,7 +291,7 @@ li, .whiteRectangle {
     width: 0vw;
     animation: infinite ease-in;
     animation-name: bottomRightImage;
-    animation-duration: 3.450s;
+    animation-duration: 3.5s;
     opacity: 1;
     visibility: hidden;
 }
@@ -329,7 +316,7 @@ li, .whiteRectangle {
     width: 0vw;
     animation: infinite ease-in;
     animation-name: bottomLeftImage;
-    animation-duration: 3.450s;
+    animation-duration: 3.5s;
     opacity: 1;
     visibility: hidden;
 }
@@ -538,9 +525,6 @@ li, .whiteRectangle {
 
 @media (min-width: 481px) and (max-width: 1050px) {
 
-    #skip {
-        font-size: 4vw;
-    }
 
     li, .whiteRectangle {
         font-size: 6vw;
@@ -561,20 +545,20 @@ li, .whiteRectangle {
     }
 
     #categoryList a:nth-of-type(3) img {
-        width: 16vw;
+        width: 14vw;
     }
 
     #categoryList a:nth-of-type(4) img {
-        width: 13vw;
+        width: 11vw;
     }
 
     #categoryList a:nth-of-type(5) img {
-        width: 12vw;
+        width: 11vw;
         left: 22vw;
     }
 
     #categoryList a:nth-of-type(6) img {
-        width: 15vw;
+        width: 11vw;
     }
 
     #categoryList a:nth-of-type(7) img {

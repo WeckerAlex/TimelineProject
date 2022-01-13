@@ -21,7 +21,6 @@ if (!isset($_COOKIE[$cookie_name])) {
 
 @if(!isset($_COOKIE["playSplash"]))
     <div id="splashScreen">
-        <!--<span id="skip" onclick="removeSplash()">skip</span>-->
         <img id="topLeftImage" src='../../images/intro/Image3_modif.png'>
         <img id="topRightImage" src='../../images/intro/Image1_modif.png'>
         <img id="bottomLeftImage" src='../../images/intro/Image5_modif.png'>
@@ -109,7 +108,7 @@ if (!isset($_COOKIE[$cookie_name])) {
     }
 
     ?>
-    <script>
+    <script defer>
 
         let firstInter = setInterval(swapText, 7000);
 
