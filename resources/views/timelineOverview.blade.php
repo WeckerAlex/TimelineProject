@@ -30,7 +30,7 @@
         function togglemenu(){
             console.log("menu Toggle");
             var menu = document.getElementById("menu");
-            menu.style.top = isMenuShown ? 'calc(48vw - var(--menuheight))' : "48vw";
+            menu.style.top = isMenuShown ? 'calc(var(--headerheight) - var(--menuheight))' : 'var(--headerheight)';
             isMenuShown = !isMenuShown;
         }
         function copyToClipboard(){
@@ -69,7 +69,7 @@
 
 <body>
     <header>
-        <div class="background" id="headerscreen" style="background-image: url({{url('images/intro/'.$imagePath)}})">
+        <div class="background" id="headerscreen" style="background-image: url({{ url('images/intro/'.$imagePath)}})">
             <button onclick="copyToClipboard()">
                 <div id="SharebuttonText">Share</div>
                 <img class="shareSymbol" src="{{url('images/intro/Share_Button.png')}}">
@@ -114,12 +114,9 @@
                 <h2>{{$eventdata->dtYear}}</h2>
                 <h3>{{$eventdata->dtTitle}}</h3>
                 <p>{{$eventdata->dtDescription}}</p>
-                <button onclick=openDetails({{$eventdata->idEvent}},{{$langId}});>
-                    Details
-{{--                    <span class="btn-overlay">--}}
-{{--                        <i class="fa fa-refresh fa-spin"></i>--}}
-{{--                    </span>--}}
-                </button>
+                <div class="cardButton" onclick=openDetails({{$eventdata->idEvent}},{{$langId}});>
+                    <div>Details</div>
+                </div>
             </div>
         @endforeach
         <img id="lineCanvas" src="{{url('images/intro/Timeline.svg')}}" alt="" />

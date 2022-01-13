@@ -39,7 +39,7 @@ class TimelineController extends Controller
                 ->get();
 
             $imageLocation = DB::table('Media')->where('idMedia', DB::table('Category')->where('idCategory', $catId)->value('fiMedia'))->value('dtPath');
-            $imageLocation = str_replace(".", "@2x.", $imageLocation);
+            //$imageLocation = str_replace(".", "@2x.", $imageLocation);
             return view('timelineOverview',['catId'=> $catId, 'langId' => $langId, 'categories' => $categories,'events'=> $events,'languagetxt'=> $languageid,'categorytxt'=> $category,'eventId'=> $eventId,'imagePath'=>$imageLocation]);
         }
     }

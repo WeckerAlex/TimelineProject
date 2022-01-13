@@ -2,6 +2,14 @@
     --borderdistance: 10%;
     --linewidth:40%;
     --menuheight: 25vw;
+    --headerheight: 48vw
+}
+@media only screen and (max-width: 480px) {
+    :root{
+        --menuheight: 48vh;
+        --headerheight: 99%;
+        --linewidth: 30%;
+    }
 }
 
 * {
@@ -12,16 +20,17 @@ body, html {
     font-family: Roboto;
 }
 header {
-    height: 48vw;
+    height: var(--headerheight);
     background-color: #FFFFFF;
 }
+
 header #headerscreen{
     display: flex;
     justify-content: center;
     align-items: center;
-    background-repeat: no-repeat;
-    background-size: 100vw;
-    height: 48vw;
+    background-size: cover;
+    background-position: center center;
+    height: 100%;
 }
 
 header .background{
@@ -62,9 +71,13 @@ header button .shareSymbol{
 
 header h1{
     text-align: center;
-    vertical-align: middle;
     font-size: 5vw;
     color: var(--lightred);
+}
+@media only screen and (max-width: 480px) {
+    header h1{
+        font-size: 10vh;
+    }
 }
 
 #menu {
@@ -74,7 +87,7 @@ header h1{
     box-shadow: 0 8px 10px 5px rgba(0,0,0,0.1);
     padding-bottom: 15px;
     height: var(--menuheight);
-    top: calc(48vw - var(--menuheight));
+    top: calc(var(--headerheight) - var(--menuheight));
     z-index: 5;
     transition: top 0.2s;
     display: flex;
@@ -90,8 +103,12 @@ header h1{
     list-style: none;
     font-weight: bold;
     height: inherit;
-    padding-left: 0;
     width: fit-content;
+}
+@media only screen and (min-width: 480px) {
+    #menu #categoryList {
+        padding-left: 0;
+    }
 }
 
 #menu #categoryList a{
@@ -108,6 +125,11 @@ header h1{
     font-weight: bolder;
     transition: 0.3s;
     vertical-align: middle;
+}
+@media only screen and (max-width: 480px) {
+    #menu #categoryList a li, .whiteRectangle{
+        font-size: 3vh;
+    }
 }
 
 #categoryList a:hover li > .whiteRectangle {
@@ -167,19 +189,18 @@ header h1{
     position: absolute;
     top: 2.5%;
     right: 2.5%;
-    color: var(--langLinkColor);
+    color: var(--lightred);
+    font-size: 1.5rem;
     font-family: Roboto;
     font-weight: bolder;
     text-decoration: none !important;
-    font-size: 1.5vw;
     text-align: right;
 }
 
 .langLink {
-    color: var(--langLinkColor);
+    color: var(--lightred);
     font-family: Roboto;
     text-decoration: none;
-    font-size: 1.5vw;
     cursor: pointer;
 }
 
@@ -190,6 +211,7 @@ header h1{
 #timeline{
     width: 100%;
     position: relative;
+    padding-top: 15px;
 }
 
 #timeline div{
@@ -207,10 +229,10 @@ header h1{
     top: 50px;
     transition: height 2s;
 }
-
-@media only screen and (max-width: 900px) {
-    #lineCanvas{
+@media only screen and (max-width: 480px) {
+    #lineCanvas {
         margin-left: 0;
+
     }
 }
 
@@ -220,18 +242,30 @@ header h1{
     font-size: 3em;
     padding: 20px;
 }
+@media only screen and (max-width: 480px) {
+    .card {
+        width: 50%;
+    }
+}
 
 .alternating_card{
     float:right;
     right: var(--borderdistance);
     clear:both;
 }
-@media only screen and (min-width: 900px) {
+@media only screen and (max-width: 480px) {
+    .alternating_card {
+        right: var(--borderdistance);
+        clear: both;
+    }
+}
+@media only screen and (min-width: 480px){
     .alternating_card:nth-of-type(2n) {
         float: left;
         left: var(--borderdistance);
     }
 }
+
 .card h2{
     font-size: 1em;
 }
@@ -247,10 +281,10 @@ header h1{
     font-size: 0.4em;
 }
 
-.card button{
+.cardButton{
     position: relative;
     background-color: var(--backgroundred);
-    border: 2px solid var(--backgroundred);
+    /*border: 2px solid var(--backgroundred);*/
     border-radius: 20px;
     color: white;
     display: inline-block;
@@ -259,26 +293,24 @@ header h1{
     padding: 20px;
     line-height: 0;
     text-align: center;
-    width: 40%;
+    min-width: fit-content;
+    width: 25%;
     font-weight: lighter;
+    box-shadow: inset 0 0 0 0 black;
+    transition: ease-in-out 0.6s;
 }
 
-/*.btn-overlay {*/
-/*    position: absolute;*/
-/*    padding: 0;*/
-/*    top: -2px;*/
-/*    left: -2px;*/
-/*    border: 2px solid white;*/
-/*    border-radius: 20px;*/
-/*    width: 100%;*/
-/*    height: 100%;*/
-/*    background-color: #ffffff;*/
-/*    opacity: 1;*/
-/*    transition: width 1s;*/
-/*}*/
+.cardButton:hover {
+    box-shadow: inset -400px 0 0 0 black;
+}
 
-.card button:hover > span{
-    width: 0;
+.cardButton:hover > div{
+    margin-left: -400px;
+}
+
+.cardButton div{
+    transition: margin-left 0.6s;
+    transition-timing-function: ease-in-out;
 }
 
 .overlay {
