@@ -40,6 +40,7 @@
             margin-left: auto;
             margin-right: auto;
             width: 20vw;
+            box-shadow: 0 14px 10px 4px rgba(0,0,0,0.1);
         }
     </style>
 </head>
@@ -55,8 +56,8 @@
             echo "<div><span id='year' class='headfonts'>".$singleEventyear->dtYear."</span></div>";
         }
         echo "<div><span id='title' class='headfonts'>".$singleEvent->dtTitle."</span></div>";
-        echo "<p class='descriptionContent'>".$singleEvent->dtDescription."</p>";
-        echo "<p class='descriptionContent'>".$singleEvent->dtContent."</p>";
+        echo "<div class='descriptionContent'>".$singleEvent->dtDescription."</div>";
+        echo "<div class='descriptionContent'>".html_entity_decode($singleEvent->dtContent)."</div>";
     }
 
     $categoryImage = DB::table('Media')->where('fiEvent', $eventid)->get();
