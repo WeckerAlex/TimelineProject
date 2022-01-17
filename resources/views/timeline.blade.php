@@ -15,12 +15,11 @@ if (!isset($_COOKIE[$cookie_name])) {
     <link rel="stylesheet" type="text/css" href="{{ URL('css/introduction.css') }}">
     <title>LAM125 - Introduction</title>
     <link rel="shortcut icon" href="../../images/LTAM-logo.png">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
 
 @if(!isset($_COOKIE["playSplash"]))
-    <div id="splashScreen">
+    <div id="splashScreen" onclick="removeSplash()">
         <img id="topLeftImage" src='../../images/intro/Image3_modif.png'>
         <img id="topRightImage" src='../../images/intro/Image1_modif.png'>
         <img id="bottomLeftImage" src='../../images/intro/Image5_modif.png'>
