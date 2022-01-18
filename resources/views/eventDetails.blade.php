@@ -53,12 +53,18 @@
             width: 20vw;
             box-shadow: 0 14px 10px 4px rgba(0,0,0,0.1);
         }
+
+        iframe{
+            margin-left: auto;
+            margin-right: auto;
+        }
     </style>
 </head>
 <body>
     @php
-        $event = DB::table('EventLang')->where('fiLanguage', $languageid)->where('fiEvent', $eventid)->get();
-        $categoryImage = DB::table('Media')->where('fiEvent', $eventid)->get();
+        use Illuminate\Support\Str;
+            $event = DB::table('EventLang')->where('fiLanguage', $languageid)->where('fiEvent', $eventid)->get();
+            $categoryImage = DB::table('Media')->where('fiEvent', $eventid)->get();
     @endphp
 
     @foreach ($event as $singleEvent)
@@ -71,11 +77,12 @@
             <div><span id='title' class='headfonts'>{{$singleEvent->dtTitle}}</span></div>
             <div class='descriptionContent'>{{$singleEvent->dtDescription}}</div><br>
             <div class='descriptionContent'>
-                {!! html_entity_decode($singleEvent->dtContent) !!}
+                @php
+                    $html = Str::markdown($singleEvent->dtContent);
+                @endphp
+                {!! $html !!}
             </div>
     @endforeach
-
-
 
     @foreach ($categoryImage as $image)
         @php
@@ -88,16 +95,20 @@
         @endif
         <figure><img id='eventImg' src='../../images/gallerie/{{$image->dtPath}}'><caption>{{$copyright}} {{$image->dtCopyright}}</caption></figure><br>
     @endforeach
+
+
     <!--
     <iframe width="600px" height="350px" frameborder="0" src="https://momento360.com/e/u/a9f0706cff9d4facb1390d69e76ff5d8?utm_campaign=embed&utm_source=other&utm_medium=other&heading=0&pitch=0&field-of-view=100">
 
     </iframe>
+
+
 
     <div id="panorama-360-view"></div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pannellum/2.5.6/pannellum.js"
             integrity="sha512-EmZuy6vd0ns9wP+3l1hETKq/vNGELFRuLfazPnKKBbDpgZL0sZ7qyao5KgVbGJKOWlAFPNn6G9naB/8WnKN43Q=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="main.js"></script>
-    -->
+-->
 </body>
 </html>
