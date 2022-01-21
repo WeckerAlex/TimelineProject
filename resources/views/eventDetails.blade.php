@@ -26,8 +26,8 @@
         }
 
         .descriptionContent{
-            margin-left: 3%;
-            margin-right: 3%;
+            margin-left: 10%;
+            margin-right: 10%;
             text-align: justify;
         }
 
@@ -41,7 +41,7 @@
         #title{
             font-weight: normal;
             font-size: 70px;
-            margin-left: 3%;
+            margin-left: 5%;
         }
 
         #eventImg, figure{
@@ -57,6 +57,10 @@
         iframe{
             margin-left: auto;
             margin-right: auto;
+        }
+
+        p, ul, ol{
+            margin-bottom: 1vw;
         }
     </style>
 </head>
@@ -74,12 +78,18 @@
         @foreach ($eventyear as $singleEventyear)
             <div><span id='year' class='headfonts'>{{$singleEventyear->dtYear}}</span></div>
         @endforeach
-            <div><span id='title' class='headfonts'>{{$singleEvent->dtTitle}}</span></div>
-            <div class='descriptionContent'>{{$singleEvent->dtDescription}}</div><br>
+            <div><span id='title' class='headfonts'>{{$singleEvent->dtTitle}}</span></div><br>
+            <div class='descriptionContent'>
+                @php
+                    $htmlDescription = Str::markdown($singleEvent->dtDescription);
+                @endphp
+                {!! $htmlDescription !!}
+            </div><br>
             <div class='descriptionContent'>
                 @php
                     $html = Str::markdown($singleEvent->dtContent);
                 @endphp
+
                 {!! $html !!}
             </div>
     @endforeach
