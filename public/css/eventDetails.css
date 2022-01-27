@@ -1,0 +1,91 @@
+
+#panorama-360-view {
+    width: 100vw;
+    height: 100vh;
+}
+
+.headfonts, .descriptionContent{
+    text-align: left;
+    font-family: Roboto;
+    font-style: normal;
+    color: #ffffff;
+}
+
+.descriptionContent{
+    margin-left: 10%;
+    margin-right: 10%;
+    text-align: justify;
+}
+
+#year{
+    font-weight: lighter;
+    font-size: 109px;
+    text-transform: uppercase;
+    margin-left: 2%;
+}
+
+#title{
+    font-weight: normal;
+    font-size: 70px;
+    margin-left: 5%;
+}
+
+#eventImg, figure{
+    border-radius: 8px;
+    display: block;
+    margin-top: 5vh;
+    margin-left: auto;
+    margin-right: auto;
+    width: 20vw;
+    box-shadow: 0 14px 10px 4px rgba(0,0,0,0.1);
+}
+
+iframe{
+    margin-left: auto;
+    margin-right: auto;
+}
+
+p, ul, ol{
+    margin-bottom: 1vw;
+}
+
+
+.generalMain {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+}
+
+.generalMain > .generalSection {
+    margin: 4px;
+    padding: 5px;
+    flex: 70%;
+}
+
+.generalMain > .gallery {
+    margin: 4px;
+    padding: 5px;
+    flex: 30%;
+}
+
+@media (max-width: 640px) {
+    .generalMain {
+        flex-direction: column;
+    }
+
+    .closebtn {
+        font-size: 3vw !important;
+    }
+    #year{
+        font-size: 55px;
+    }
+
+    #title{
+        font-size: 35px;
+    }
+
+    .generalMain > .gallery {
+        min-height: 50px;
+    }
+}

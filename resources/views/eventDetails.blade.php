@@ -6,63 +6,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{{ URL('css/colors.css') }}">
-
+    <link rel="stylesheet" type="text/css" href="{{URL('css/eventDetails.css')}}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pannellum/2.5.6/pannellum.css"
           integrity="sha512-UoT/Ca6+2kRekuB1IDZgwtDt0ZUfsweWmyNhMqhG4hpnf7sFnhrLrO0zHJr2vFp7eZEvJ3FN58dhVx+YMJMt2A=="
           crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <title>LAM125 - Event</title>
-    <style>
-        #panorama-360-view {
-            width: 100vw;
-            height: 100vh;
-        }
 
-        .headfonts, .descriptionContent{
-            text-align: left;
-            font-family: Roboto;
-            font-style: normal;
-            color: #ffffff;
-        }
-
-        .descriptionContent{
-            margin-left: 10%;
-            margin-right: 10%;
-            text-align: justify;
-        }
-
-        #year{
-            font-weight: lighter;
-            font-size: 109px;
-            text-transform: uppercase;
-            margin-left: 2%;
-        }
-
-        #title{
-            font-weight: normal;
-            font-size: 70px;
-            margin-left: 5%;
-        }
-
-        #eventImg, figure{
-            border-radius: 8px;
-            display: block;
-            margin-top: 5vh;
-            margin-left: auto;
-            margin-right: auto;
-            width: 20vw;
-            box-shadow: 0 14px 10px 4px rgba(0,0,0,0.1);
-        }
-
-        iframe{
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        p, ul, ol{
-            margin-bottom: 1vw;
-        }
-    </style>
 </head>
 <body>
     @php
@@ -70,6 +20,8 @@
             $event = DB::table('EventLang')->where('fiLanguage', $languageid)->where('fiEvent', $eventid)->get();
             $categoryImage = DB::table('Media')->where('fiEvent', $eventid)->get();
     @endphp
+
+
 
     @foreach ($event as $singleEvent)
         @php
@@ -79,32 +31,46 @@
             <div><span id='year' class='headfonts'>{{$singleEventyear->dtYear}}</span></div>
         @endforeach
             <div><span id='title' class='headfonts'>{{$singleEvent->dtTitle}}</span></div><br>
-            <div class='descriptionContent'>
-                @php
-                    $htmlDescription = Str::markdown($singleEvent->dtDescription);
-                @endphp
-                {!! $htmlDescription !!}
-            </div><br>
-            <div class='descriptionContent'>
-                @php
-                    $html = Str::markdown($singleEvent->dtContent);
-                @endphp
 
-                {!! $html !!}
-            </div>
-    @endforeach
 
-    @foreach ($categoryImage as $image)
-        @php
-            $copyright="&#169"
-        @endphp
-        @if($image->dtCopyright== null || $image->dtCopyright == "")
-            @php
-              $copyright=""
-            @endphp
-        @endif
-        <figure><img id='eventImg' src='../../images/gallerie/{{$image->dtPath}}'><caption>{{$copyright}} {{$image->dtCopyright}}</caption></figure><br>
-    @endforeach
+
+        <div class="generalMain">
+            <aside class="gallery">
+                @foreach ($categoryImage as $image)
+                    @php
+                        $copyright="&#169"
+                    @endphp
+                    @if($image->dtCopyright== null || $image->dtCopyright == "")
+                        @php
+                            $copyright=""
+                        @endphp
+                    @endif
+                    <figure><img id='eventImg' src='../../images/gallerie/{{$image->dtPath}}'><caption>{{$copyright}} {{$image->dtCopyright}}</caption></figure><br>
+                @endforeach
+            </aside>
+
+            <section class="generalSection">
+
+
+{{--            <div class='descriptionContent'>--}}
+{{--                @php--}}
+{{--                    $htmlDescription = Str::markdown($singleEvent->dtDescription);--}}
+{{--                @endphp--}}
+{{--                {!! $htmlDescription !!}--}}
+{{--            </div><br>--}}
+
+                <div class='descriptionContent'>
+                    @php
+                        $html = Str::markdown($singleEvent->dtContent);
+                    @endphp
+
+                    {!! $html !!}
+                </div>
+            </Section>
+        </div>
+        @endforeach
+
+
 
 
     <!--
