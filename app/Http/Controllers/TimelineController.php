@@ -35,7 +35,7 @@ class TimelineController extends Controller
                 ->leftJoin('Event', 'EventCategory.fiEvent', '=', 'Event.idEvent')
                 ->leftJoin('EventLang', 'EventCategory.fiEvent', '=', 'EventLang.fiEvent')
                 ->where('fiLanguage', $langId)
-                ->orderBy('dtYear', 'asc')
+                ->orderBy('dtYear', 'desc')
                 ->get();
 
             $imageLocation = DB::table('Media')->where('idMedia', DB::table('Category')->where('idCategory', $catId)->value('fiMedia'))->value('dtPath');

@@ -45,21 +45,55 @@
         function init() {
             drawTimeline();
             const eventSelected = {{is_null($eventId) ? "false" : "true"}};
-            const eventId = {{is_null($eventId) ? 0 : $eventId}};
-            const eventelement = document.getElementById("Event" + eventId);
-            const offset = eventelement.offsetTop;
-            scroll(0, offset);
             if (eventSelected){
+                const eventId = {{is_null($eventId) ? 0 : $eventId}};
+                scroll(0, document.getElementById("Event" + eventId).offsetTop);
                 openDetails(eventId,{{$langId}});
             }
         }
         function drawTimeline(){
-            var timelineArea = document.getElementById("timeline");
-            var timelineSVG = document.getElementById("lineCanvas");
-            timelineSVG.style.height = timelineArea.scrollHeight-2*50+"px";
+            let timelineArea = document.getElementById("timeline");
+            var svg = document.getElementById('lineImage'); //Get svg element
+            var cardArray = [];
+            for(var card = 0; card < document.getElementsByClassName("card").length; card++)
+                cardArray.push(document.getElementsByClassName("card")[card].offsetTop);
+            console.log(cardArray.at(-1));
+            // svg.style.height = timelineArea.scrollHeight-2*50+"px";
+            svg.style.height = cardArray.at(-1)+15+"px";
+            var newElement = document.createElementNS("http://www.w3.org/2000/svg", 'circle'); //Create a path in SVG's namespace
+            var svgPath = document.getElementById("Tracé_3");
+            var pathlength = svgPath.getTotalLength();
+            var pointsCount = document.getElementsByClassName("card").length;
+            var shownpart = (timelineArea.scrollHeight-2*50)/pathlength * 1.14;
+            var point;
+            for (var i = 0; i < pointsCount; i ++) {
+                let distance = (i * pathlength * shownpart)/(pointsCount);
+                newElement = document.createElementNS("http://www.w3.org/2000/svg", 'circle'); //Create a path in SVG's namespace
+                point = svgPath.getPointAtLength(distance);
+                // console.log(svgPath.offsetWidth)
+                // console.log(distance);
+                // console.log(point);
+                // console.log((point.x-2690).toString());
+                // console.log(distance.toString());
+                newElement.setAttribute("cx",((point.x-2480)).toString()); //Set path's data
+                // newElement.setAttribute("cy",((point.y-600)).toString()); //Set path's data
+                newElement.setAttribute("cy",cardArray[i].toString()); //Set path's data
+                newElement.setAttribute("r",(Math.ceil(Math.random()*10)+10).toString()); //Set path's data
+                svg.appendChild(newElement);
+                // for (var x = 0; x < timelineSVG.scrollWidth; x ++){
+                //     console.log(x);
+                //     console.log(svgPath.isPointInStroke(newElement));
+                //     newElement.setAttribute("cx",x.toString());
+                //     if (svgPath.isPointInStroke(newElement)){
+                //         break
+                //     }
+                //     // console.log("App");
+                //     svg.appendChild(newElement);
+                // }
+            }
         }
         function drawpoint(y){
-            var canvas = document.getElementById("lineCanvas");
+            var canvas = document.getElementById("lineImage");
         }
         addEventListener('load', init);
         addEventListener('resize', drawTimeline);
@@ -119,7 +153,18 @@
                 </div>
             </div>
         @endforeach
-        <img id="lineCanvas" src="{{url('images/intro/Timeline.svg')}}" alt="" />
+{{--        <canvas id="lineCanvas"  width="100" height="1000">--}}
+{{--            <img id="lineImage" src="{{url('images/intro/Timeline.svg')}}" alt="" />--}}
+                        <svg id="lineImage" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMaxYMax slice" >
+                            <path id="Tracé_3" data-name="Tracé 3" d="M2710.841,607.827s-217.778,221.028-94.262,604.576,266.534,393.3,263.283,796.35-266.534,585.074-204.776,887.362,357.545,572.072,302.288,975.123-383.548,442.056-266.533,1004.376,341.293,412.8,312.039,825.6-347.794,500.563-289.287,861.358" transform="matrix(1, 0.017, -0.017, 1, -2461.727, -651.299)" fill="none" stroke="#5f0000" stroke-width="4"/>
+{{--                            <circle cx="233" cy="5" r="10"/>--}}
+{{--                            <circle cx="233" cy="105" r="10"/>--}}
+{{--                            <circle cx="233" cy="205" r="10"/>--}}
+{{--                            <circle cx="233" cy="305" r="10"/>--}}
+{{--                            <circle cx="233" cy="405" r="10"/>--}}
+{{--                            <circle cx="233" cy="5963" r="10"/>--}}
+                        </svg>
+{{--        </canvas>--}}
     </div>
     <div id="Detailspopup" class="overlay">
         <span class="closebtn" onclick=closeDetails()>Go back</span>
