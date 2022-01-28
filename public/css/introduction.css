@@ -104,26 +104,23 @@ li, .whiteRectangle {
 
 /* on hover list item and image */
 
-@media all and (min-width: 481px) {
+
     #categoryList a:hover > .draftImg {
         transition: 0.2s;
         width: 17vw;
-        margin-top: 0;
         z-index: 1;
     }
     #categoryList a:nth-of-type(5):hover > .draftImg {
         transition: 0.2s;
         width: 15vw;
-        margin-top: 0;
         z-index: 1;
     }
     #categoryList a:hover li > .draftImg {
         transition: 0.2s;
         width: 17vw;
-        margin-top: 0;
         z-index: 1;
     }
-}
+
 
 
 #categoryList a:hover li > .whiteRectangle {
@@ -138,7 +135,7 @@ li, .whiteRectangle {
 /* Multilingual */
 #languageChoice {
     position: absolute;
-    top: 0;
+    top: -1vh;
     right: 2.5%;
     color: white;
     font-family: Roboto;
@@ -400,6 +397,22 @@ li, .whiteRectangle {
         color: #5F0000;
     }
 
+    #categoryList a:hover > .draftImg {
+        transition: 0.2s;
+        width: 47vw;
+        z-index: 1;
+    }
+    #categoryList a:nth-of-type(5):hover > .draftImg {
+        transition: 0.2s;
+        width: 47vw;
+        z-index: 1;
+    }
+    #categoryList a:hover li > .draftImg {
+        transition: 0.2s;
+        width: 47vw;
+        z-index: 1;
+    }
+
     .langLink, u, #slash {
         font-size: 3.3vw;
     }
@@ -527,11 +540,11 @@ li, .whiteRectangle {
 
 
     li, .whiteRectangle {
-        font-size: 6vw;
+        font-size: 5vw;
     }
 
     .whiteRectangle {
-        width: 6vw;
+        width: 5vw;
         height: 0.7em;
     }
 
@@ -554,7 +567,7 @@ li, .whiteRectangle {
 
     #categoryList a:nth-of-type(5) img {
         width: 11vw;
-        left: 22vw;
+        left: 20vw;
     }
 
     #categoryList a:nth-of-type(6) img {
@@ -564,6 +577,7 @@ li, .whiteRectangle {
     #categoryList a:nth-of-type(7) img {
         width: 11vw;
     }
+
 
     #categoryList a:hover li > .whiteRectangle {
         width: 11vw;
