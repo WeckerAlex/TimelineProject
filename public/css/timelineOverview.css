@@ -313,24 +313,29 @@ header h1{
     background-color: var(--backgroundred);
 }
 
+@media  only screen and (max-width: 480px){
+    .overlay .closebtn {
+    }
+}
 #DetailspopupItems {
     position: absolute;
     right: 45px;
     font-size: 60px;
     cursor: pointer;
     color: white;
+    width: fit-content;
 }
-.overlay .closebtn {
-    top: 20px;
-    display: block;
-    margin: auto;
-}
-.overlay .closebtn:hover {
 
+.closebtn:hover{
+    stroke-width:2px;
+    stroke:white;
+}
+.closebtn{
+    stroke:white;
+    stroke-width:0px;
 }
 .overlay .sharebtn {
     top: 100px;
-    width: 20%;
     display: block;
     margin: auto;
 }

@@ -7,7 +7,7 @@
     <link rel="stylesheet" type="text/css" href="{{ URL('css/timelineOverview.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ URL('css/colors.css') }}">
     <title>LAM125 - Timeline</title>
-    <link rel="shortcut icon" href="../../images/LTAM-logo.png">
+    <link rel="shortcut icon" href="/images/LTAM-logo.png">
     <script>
         var verticalOffset = 0;
         var isMenuShown = false;
@@ -19,7 +19,8 @@
             window.scrollTo(0, 0);
             //show Details
             fetch(`/Timeline/Event/${eventId}/${languageId}`)
-                .then(async data => document.getElementById("overlay").innerHTML = await data.text());
+                .then(async data => document.getElementById("overlay").innerHTML = await data.text()
+            )
         }
 
         // Close the full screen search box
@@ -179,12 +180,12 @@
     <div id="Detailspopup" class="overlay">
         <div id="DetailspopupItems">
 {{--            <span class="closebtn" onclick=closeDetails()>Go back</span>--}}
-            <svg class="closebtn" xmlns="http://www.w3.org/2000/svg" width="151" height="49" viewBox="0 0 151 49">
-                <g id="Composant_25_1" data-name="Composant 25 – 1" transform="translate(0 4)">
-                    <text id="GO_BACK" data-name="GO BACK" transform="translate(0 35)" fill="#fff" font-size="37" font-family="Roboto-Thin, Roboto" font-weight="200"><tspan x="0" y="0">GO BACK</tspan></text>
+            <svg class="closebtn" xmlns="http://www.w3.org/2000/svg" width="151" height="49" viewBox="0 0 151 49" onclick="closeDetails()">
+                <g id="Composant_25_1" data-name="Composant 25 – 1" >
+                    <text id="GO_BACK" data-name="GO BACK" transform="translate(0 35)" fill="#fff" font-size="37" font-family="Roboto-Thin, Roboto" ><tspan x="0" y="0">GO BACK</tspan></text>
                 </g>
             </svg>
-            <svg class="sharebtn" data-name="Komponente 17 – 3" xmlns="http://www.w3.org/2000/svg" width="58" height="69" viewBox="0 0 58 69">
+            <svg class="sharebtn" data-name="Komponente 17 – 3" xmlns="http://www.w3.org/2000/svg" width="58" height="69" viewBox="0 0 58 69" onclick="copyToClipboard()">
                 <g id="Gruppe_61" data-name="Gruppe 61" transform="translate(-94 -96)">
                     <circle id="Ellipse_10" data-name="Ellipse 10" cx="11" cy="11" r="11" transform="translate(94 96)" fill="#fff"/>
                     <ellipse id="Ellipse_11" data-name="Ellipse 11" cx="11" cy="10.5" rx="11" ry="10.5" transform="translate(130 118)" fill="#fff"/>
