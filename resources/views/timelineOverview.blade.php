@@ -6,6 +6,8 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{{ URL('css/timelineOverview.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ URL('css/colors.css') }}">
+    <title>LAM125 - Timeline</title>
+    <link rel="shortcut icon" href="../../images/LTAM-logo.png">
     <script>
         var verticalOffset = 0;
         var isMenuShown = false;
@@ -98,15 +100,23 @@
         addEventListener('load', init);
         addEventListener('resize', drawTimeline);
     </script>
-    <title>Timeline</title>
+    <script src="{{ URL('js/eventDetails.js') }}" defer></script>
 </head>
 
 <body>
     <header>
         <div class="background" id="headerscreen" style="background-image: url({{ url('images/intro/'.$imagePath)}})">
             <button onclick="copyToClipboard()">
-                <div id="SharebuttonText">Share</div>
-                <img class="shareSymbol" src="{{url('images/intro/Share_Button.png')}}">
+                <svg id="Komponente_17_3" class="shareSymbol" data-name="Komponente 17 – 3" xmlns="http://www.w3.org/2000/svg" width="58" height="69" viewBox="0 0 58 69">
+                    <g id="Gruppe_61" data-name="Gruppe 61" transform="translate(-94 -96)">
+                        <circle id="Ellipse_10" data-name="Ellipse 10" cx="11" cy="11" r="11" transform="translate(94 96)" fill="#912e22"/>
+                        <ellipse id="Ellipse_11" data-name="Ellipse 11" cx="11" cy="10.5" rx="11" ry="10.5" transform="translate(130 118)" fill="#912e22"/>
+                        <circle id="Ellipse_12" data-name="Ellipse 12" cx="11" cy="11" r="11" transform="translate(94 143)" fill="#912e22"/>
+                        <line id="Linie_1" data-name="Linie 1" x1="39.035" y2="25.778" transform="translate(104.956 128.29)" fill="none" stroke="#912e22" stroke-width="3"/>
+                        <line id="Linie_2" data-name="Linie 2" x2="36.089" y2="21.359" transform="translate(104.956 106.932)" fill="none" stroke="#912e22" stroke-width="3"/>
+                    </g>
+                </svg>
+                {{--                <img class="shareSymbol" src="{{url('images/intro/Share_Button.png')}}">--}}
             </button>
             <div id="languageChoice" style="cursor: default">
                 @foreach (DB::table('Language')->pluck('dtIso_code') as $language)
@@ -167,7 +177,23 @@
 {{--        </canvas>--}}
     </div>
     <div id="Detailspopup" class="overlay">
-        <span class="closebtn" onclick=closeDetails()>Go back</span>
+        <div id="DetailspopupItems">
+{{--            <span class="closebtn" onclick=closeDetails()>Go back</span>--}}
+            <svg class="closebtn" xmlns="http://www.w3.org/2000/svg" width="151" height="49" viewBox="0 0 151 49">
+                <g id="Composant_25_1" data-name="Composant 25 – 1" transform="translate(0 4)">
+                    <text id="GO_BACK" data-name="GO BACK" transform="translate(0 35)" fill="#fff" font-size="37" font-family="Roboto-Thin, Roboto" font-weight="200"><tspan x="0" y="0">GO BACK</tspan></text>
+                </g>
+            </svg>
+            <svg class="sharebtn" data-name="Komponente 17 – 3" xmlns="http://www.w3.org/2000/svg" width="58" height="69" viewBox="0 0 58 69">
+                <g id="Gruppe_61" data-name="Gruppe 61" transform="translate(-94 -96)">
+                    <circle id="Ellipse_10" data-name="Ellipse 10" cx="11" cy="11" r="11" transform="translate(94 96)" fill="#fff"/>
+                    <ellipse id="Ellipse_11" data-name="Ellipse 11" cx="11" cy="10.5" rx="11" ry="10.5" transform="translate(130 118)" fill="#fff"/>
+                    <circle id="Ellipse_12" data-name="Ellipse 12" cx="11" cy="11" r="11" transform="translate(94 143)" fill="#fff"/>
+                    <line id="Linie_1" data-name="Linie 1" x1="39.035" y2="25.778" transform="translate(104.956 128.29)" fill="none" stroke="#fff" stroke-width="3"/>
+                    <line id="Linie_2" data-name="Linie 2" x2="36.089" y2="21.359" transform="translate(104.956 106.932)" fill="none" stroke="#fff" stroke-width="3"/>
+                </g>
+            </svg>
+        </div>
         <div id="overlay" class="overlay-content">
 
         </div>
