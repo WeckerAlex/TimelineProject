@@ -1,6 +1,15 @@
 :root {
     --borderdistance: 10%;
     --linewidth:40%;
+    --menuheight: 25vw;
+    --headerheight: min(48vw,98%);
+}
+@media only screen and (max-width: 480px) {
+    :root{
+        --menuheight: 48vh;
+        --headerheight: 98%;
+        --linewidth: 30%;
+    }
 }
 
 * {
@@ -11,16 +20,17 @@ body, html {
     font-family: Roboto;
 }
 header {
-    height: 48vw;
+    height: var(--headerheight);
     background-color: #FFFFFF;
 }
+
 header #headerscreen{
     display: flex;
     justify-content: center;
     align-items: center;
-    background-repeat: no-repeat;
-    background-size: 100vw;
-    height: 48vw;
+    background-size: cover;
+    background-position: center center;
+    height: 100%;
 }
 
 header .background{
@@ -41,12 +51,6 @@ header .background button{
     cursor: pointer;
 }
 
-header button #SharebuttonText{
-    color: var(--highlightred);
-    font-size: 2.5vw;
-    text-decoration: underline;
-    margin: 0 auto;
-}
 header button .shareSymbol{
     color: var(--backgroundred);
     aspect-ratio: 1;
@@ -54,16 +58,15 @@ header button .shareSymbol{
     margin: 0 auto;
 }
 
-.shareSymbol *{
-    position: relative;
-    top: 0px;
-}
-
 header h1{
     text-align: center;
-    vertical-align: middle;
     font-size: 5vw;
     color: var(--lightred);
+}
+@media only screen and (max-width: 480px) {
+    header h1{
+        font-size: 10vh;
+    }
 }
 
 #menu {
@@ -72,8 +75,8 @@ header h1{
     width: 100%;
     box-shadow: 0 8px 10px 5px rgba(0,0,0,0.1);
     padding-bottom: 15px;
-    height: 48vw;
-    top: 0vw;
+    height: var(--menuheight);
+    top: calc(var(--headerheight) - var(--menuheight));
     z-index: 5;
     transition: top 0.2s;
     display: flex;
@@ -89,8 +92,12 @@ header h1{
     list-style: none;
     font-weight: bold;
     height: inherit;
-    padding-left: 0;
     width: fit-content;
+}
+@media only screen and (min-width: 480px) {
+    #menu #categoryList {
+        padding-left: 0;
+    }
 }
 
 #menu #categoryList a{
@@ -103,12 +110,24 @@ header h1{
     list-style-type: none;
     color: white;
     font-family: Roboto;
-    font-size: 3vw;
+    font-size: 2vw;
     font-weight: bolder;
     transition: 0.3s;
     vertical-align: middle;
 }
+@media only screen and (max-width: 480px) {
+    #menu #categoryList a li, .whiteRectangle{
+        font-size: 3vh;
+    }
+}
 
+#categoryList a:hover li > .whiteRectangle {
+    background-color: var(--highlightred);
+}
+
+#menu #categoryList a:hover li{
+    color: var(--highlightred);
+}
 /*#menu #categoryList li:hover {*/
 /*    color: var(--highlightred);*/
 /*}*/
@@ -159,41 +178,51 @@ header h1{
     position: absolute;
     top: 2.5%;
     right: 2.5%;
-    color: white;
+    color: var(--lightred);
+    font-size: 1.5rem;
     font-family: Roboto;
     font-weight: bolder;
     text-decoration: none !important;
-    font-size: 1.5vw;
     text-align: right;
 }
 
 .langLink {
-    color: white;
+    color: var(--lightred);
     font-family: Roboto;
     text-decoration: none;
-    font-size: 1.5vw;
     cursor: pointer;
+}
+
+.langLink:hover{
+    color: var(--highlightred);
 }
 
 #timeline{
     width: 100%;
     position: relative;
+    padding-top: 15px;
+    fill: var(--highlightred);
 }
 
 #timeline div{
-    z-index: 1;
+    z-index: 3;
 }
 
-#lineCanvas{
+#lineImage{
     position: absolute;
     width: var(--linewidth);
     margin: 0 calc((100% - var(--linewidth))/2);
-    z-index: 0;
-    height: 0px;
-    object-fit: cover;
-    object-position: top;
+    z-index: 2;
     top: 50px;
-    transition: height 2s;
+    height: 100vh;
+    /*min-width: 1020px;*/
+    /*transition: height 2s;*/
+}
+@media only screen and (max-width: 480px) {
+    #lineImage {
+        margin-left: var(--borderdistance);
+
+    }
 }
 
 .card{
@@ -202,16 +231,28 @@ header h1{
     font-size: 3em;
     padding: 20px;
 }
+@media only screen and (max-width: 480px) {
+    .card {
+        width: 50%;
+    }
+}
 
 .alternating_card{
     float:right;
     right: var(--borderdistance);
     clear:both;
 }
-
-.alternating_card:nth-of-type(2n){
-    float:left;
-    left: var(--borderdistance);
+@media only screen and (max-width: 480px) {
+    .alternating_card {
+        right: var(--borderdistance);
+        clear: both;
+    }
+}
+@media only screen and (min-width: 480px){
+    .alternating_card:nth-of-type(2n) {
+        float: left;
+        left: var(--borderdistance);
+    }
 }
 
 .card h2{
@@ -229,9 +270,10 @@ header h1{
     font-size: 0.4em;
 }
 
-.card button{
+.cardButton{
+    position: relative;
     background-color: var(--backgroundred);
-    border: 2px solid var(--backgroundred);
+    /*border: 2px solid var(--backgroundred);*/
     border-radius: 20px;
     color: white;
     display: inline-block;
@@ -240,11 +282,25 @@ header h1{
     padding: 20px;
     line-height: 0;
     text-align: center;
-    width: 40%;
+    min-width: fit-content;
+    width: 25%;
     font-weight: lighter;
+    box-shadow: inset 0 0 0 0 black;
+    transition: ease-in-out 0.6s;
 }
 
+.cardButton:hover {
+    box-shadow: inset -400px 0 0 0 black;
+}
 
+.cardButton:hover > div{
+    margin-left: -400px;
+}
+
+.cardButton div{
+    transition: margin-left 0.6s;
+    transition-timing-function: ease-in-out;
+}
 
 .overlay {
     min-height: 100%;
@@ -257,11 +313,29 @@ header h1{
     background-color: var(--backgroundred);
 }
 
-.overlay .closebtn {
+@media  only screen and (max-width: 480px){
+    .overlay .closebtn {
+    }
+}
+#DetailspopupItems {
     position: absolute;
-    top: 20px;
     right: 45px;
     font-size: 60px;
     cursor: pointer;
     color: white;
+    width: fit-content;
+}
+
+.closebtn:hover{
+    stroke-width:2px;
+    stroke:white;
+}
+.closebtn{
+    stroke:white;
+    stroke-width:0px;
+}
+.overlay .sharebtn {
+    top: 100px;
+    display: block;
+    margin: auto;
 }
