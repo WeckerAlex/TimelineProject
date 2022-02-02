@@ -46,7 +46,9 @@
     </script>
     <script>
         function init() {
-            drawTimeline();
+            // drawTimeline();
+            initLine();
+            insertPoints();
             const eventSelected = {{is_null($eventId) ? "false" : "true"}};
             if (eventSelected){
                 const eventId = {{is_null($eventId) ? 0 : $eventId}};
@@ -64,7 +66,6 @@
             // svg.style.height = timelineArea.scrollHeight-2*50+"px";
             svg.style.height = cardArray.at(-1)+15+"px";
             var newElement = document.createElementNS("http://www.w3.org/2000/svg", 'circle'); //Create a path in SVG's namespace
-            var svgPath = document.getElementById("Tracé_3");
             var pathlength = svgPath.getTotalLength();
             var pointsCount = document.getElementsByClassName("card").length;
             var shownpart = (timelineArea.scrollHeight-2*50)/pathlength * 1.14;
@@ -95,11 +96,99 @@
                 // }
             }
         }
-        function drawpoint(y){
-            var canvas = document.getElementById("lineImage");
+
+        function initLine() {
+            console.log("initLine");
+            var svgContainer = document.getElementById('lineImage'); //Get svg container element
+            var svg = document.getElementById('svg'); //Get svg element
+            var cardArray = [];
+            for(var card = 0; card < document.getElementsByClassName("card").length; card++)
+                cardArray.push(document.getElementsByClassName("card")[card].offsetTop);
+            svgContainer.style.height = cardArray.at(-1)+15+"px";
+            svg.style.height = cardArray.at(-1)+15+"px";
+            // var path = document.getElementById("path");
+            // var minx = 100000000;
+            // var maxx = 0;
+            // for (var i = 0; i < (cardArray.at(-1) + 15); i = i+10) {
+            //     var pos = path.getPointAtLength(i);
+            //     if(pos.x<minx){minx=pos.x};
+            //     if(pos.x>maxx){maxx=pos.x};
+            // }
+            // svg.style.width = (maxx-minx) + "px";
+            // console.log("minx: " + minx);
+            // console.log("maxx: " + maxx);
+            svgContainer.style.width = svg.style.width;
+        }
+
+        function insertPoints(){
+            console.log("Pointcount: "+document.getElementsByClassName("timelinePoint").length)
+            for(var cx = document.getElementsByClassName("timelinePoint").length-1; cx > 0; cx--){
+                document.getElementsByClassName("timelinePoint")[cx].remove();
+            }
+            var path = document.getElementById("path");
+            var svgContainer = document.getElementById('lineImage');
+            for(var card = 0; card < document.getElementsByClassName("card").length; card++){
+                let lastIndex = document.getElementsByClassName("card").length-1;
+                var posXPoint = svgContainer.offsetLeft;
+                if(card==0){
+                    posXPoint = posXPoint + insertSinglePoint(document.getElementsByClassName("card")[card].offsetTop-15);
+                }
+                if(card==lastIndex){
+                    posXPoint = posXPoint + insertSinglePoint(document.getElementsByClassName("card")[card].offsetTop+15);
+                }
+                if(card!=0 && card!=lastIndex){
+                    posXPoint = posXPoint + insertSinglePoint(document.getElementsByClassName("card")[card].offsetTop);
+                }
+                var cardMinX = document.getElementsByClassName("card")[card].offsetLeft;
+                var cardMaxX = cardMinX + document.getElementsByClassName("card")[card].offsetWidth;
+                //check if card lies on line
+                if(cardMinX<posXPoint && cardMaxX>posXPoint){
+                    console.log("cardMinX: "+ cardMinX+" posXPoint: "+ posXPoint+" posXPoint: "+ posXPoint);
+                    var cardElement = document.getElementsByClassName("card")[card];
+                    var screenpos = window.getComputedStyle(cardElement).getPropertyValue('float');
+                    if (screenpos = "left"){
+                        //move card to left
+                        var screenposright = window.getComputedStyle(cardElement).getPropertyValue('right');
+                        console.log("right: " + screenposright);
+                        cardElement.style.left = 0 + "px";
+                    }else{
+                        //move card to right
+                        var screenposleft = window.getComputedStyle(cardElement).getPropertyValue('left');
+                        console.log("left: " + screenposleft);
+                        cardElement.style.right = 0 + "px";
+                    }
+                }
+            }
+
+            // Move obj element along path based on percentage of total length
+            function insertSinglePoint(position) {
+                // Get x and y values at a certain point in the line
+                var pt = getDistanceAtHeight(position);
+                pt.x = Math.round(pt.x);
+                pt.y = Math.round(pt.y);
+
+                //add Point
+                var svgContainer = document.getElementById('lineImage'); //Get svg container element
+                var newDiv = document.createElement("div");
+                newDiv.style.transform = 'translate3d(' + pt.x + 'px,' + pt.y + 'px, 0)';
+                newDiv.classList.add('timelinePoint');
+                svgContainer.appendChild(newDiv);
+                return pt.x;
+            }
+            function getDistanceAtHeight(height){
+                var pt = path.getPointAtLength(height);
+                var distance = height;
+                if(pt.y != height){
+                    while (Math.abs(pt.y - height)>1){
+                        distance = distance + ((pt.y - height)<0 ? height-pt.y : pt.y - height);
+                        pt = path.getPointAtLength(distance);
+                    }
+                }
+                return pt
+            }
         }
         addEventListener('load', init);
-        addEventListener('resize', drawTimeline);
+        addEventListener('resize', init);
     </script>
     <script src="{{ URL('js/eventDetails.js') }}" defer></script>
 </head>
@@ -164,18 +253,14 @@
                 </div>
             </div>
         @endforeach
-{{--        <canvas id="lineCanvas"  width="100" height="1000">--}}
-{{--            <img id="lineImage" src="{{url('images/intro/Timeline.svg')}}" alt="" />--}}
-                        <svg id="lineImage" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMaxYMax slice" >
-                            <path id="Tracé_3" data-name="Tracé 3" d="M2710.841,607.827s-217.778,221.028-94.262,604.576,266.534,393.3,263.283,796.35-266.534,585.074-204.776,887.362,357.545,572.072,302.288,975.123-383.548,442.056-266.533,1004.376,341.293,412.8,312.039,825.6-347.794,500.563-289.287,861.358" transform="matrix(1, 0.017, -0.017, 1, -2461.727, -651.299)" fill="none" stroke="#5f0000" stroke-width="4"/>
-{{--                            <circle cx="233" cy="5" r="10"/>--}}
-{{--                            <circle cx="233" cy="105" r="10"/>--}}
-{{--                            <circle cx="233" cy="205" r="10"/>--}}
-{{--                            <circle cx="233" cy="305" r="10"/>--}}
-{{--                            <circle cx="233" cy="405" r="10"/>--}}
-{{--                            <circle cx="233" cy="5963" r="10"/>--}}
-                        </svg>
-{{--        </canvas>--}}
+            <div id="lineImage">
+                <svg id="svg" width="554.699" height="500" preserveAspectRatio="xMidYMin slice"
+                     viewBox="0 0 554.699 5963.434">
+                    <path id="path"
+                          d="M140,0s-217.778,221.028-94.262,604.576,266.534,393.3,263.283,796.35-266.534,585.074-204.776,887.362,357.545,572.072,302.288,975.123-383.548,442.056-266.533,1004.376,341.293,412.8,312.039,825.6-347.794,500.563-289.287,861.358"
+                          fill="none" stroke="#5f0000" stroke-width="4" />
+                </svg>
+            </div>
     </div>
     <div id="Detailspopup" class="overlay">
         <div id="DetailspopupItems">

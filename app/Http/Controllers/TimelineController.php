@@ -12,9 +12,9 @@ class TimelineController extends Controller
         $category = str_replace("_", " ", $category);
         $check1 = DB::table('Language')->where('dtIso_code', $languageid)->count();
         $check2 = DB::table('CategoryLang')->where('dtText', $category)->where('fiLanguage', 1)->count();
-        if ($check1 <> 1 or $check2 <> 1 or !is_numeric($eventId)){
-            if ($check2 == 1 and is_numeric($eventId)){
-                if ($eventId == null){
+        if ($check1 <> 1 or $check2 <> 1 or !(is_numeric($eventId) or is_null($eventId) )){
+            if ($check2 == 1){
+                if (!is_numeric($eventId) or is_null($eventId)){
                     return redirect()->route("Timeline",['category'=> $category]);
                 }else{
                     return redirect()->route("TimelinewithEvent",['category'=> $category,'eventId'=> $eventId]);
