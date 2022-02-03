@@ -13,10 +13,14 @@ class TimelineController extends Controller
         $check1 = DB::table('Language')->where('dtIso_code', $languageid)->count();
         $check2 = DB::table('CategoryLang')->where('dtText', $category)->where('fiLanguage', 1)->count();
         if ($check1 <> 1 or $check2 <> 1 or !(is_numeric($eventId) or is_null($eventId) )){
+            //language does not exit or category does not exist or event is NaN or null
             if ($check2 == 1){
+                //language does not exit or event is NaN or null
                 if (!is_numeric($eventId) or is_null($eventId)){
+                    //event is NaN or null
                     return redirect()->route("Timeline",['category'=> $category]);
                 }else{
+                    //language does not exit
                     return redirect()->route("TimelinewithEvent",['category'=> $category,'eventId'=> $eventId]);
                 }
             }else{

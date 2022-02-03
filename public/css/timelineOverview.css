@@ -215,7 +215,8 @@ header h1{
 #lineImage{
     position: absolute;
     width: var(--linewidth);
-    margin: 0 calc((100% - var(--linewidth))/2);
+    /*margin: 0 calc((100% - var(--linewidth))/2);*/
+    margin-left: calc((100% - var(--linewidth))/2 + 50px);
     z-index: 2;
     top: 50px;
     height: 100vh;
