@@ -12,7 +12,10 @@
         var verticalOffset = 0;
         var isMenuShown = false;
         var isMenuDisplayed = false;
+        var chosenEventId = null;
         async function openDetails(eventId,languageId) {
+            chosenEventId = eventId;
+            console.log("chosenEventId: " + chosenEventId);
             document.getElementById("Detailspopup").style.display = "block";
             document.body.style.overflow = "hidden";
             verticalOffset = window.pageYOffset || document.documentElement.scrollTop;
@@ -28,27 +31,33 @@
             document.getElementById("Detailspopup").style.display = "none";
             document.body.style.overflow = "scroll";
             window.scrollTo(0, verticalOffset);
+            chosenEventId = null;
+            document.getElementById("overlay").innerHTML = "";
         }
 
         function togglemenu(){
-            console.log("menu Toggle");
             var menu = document.getElementById("menu");
             menu.style.top = isMenuShown ? 'calc(var(--headerheight) - var(--menuheight))' : 'var(--headerheight)';
             isMenuShown = !isMenuShown;
         }
         function copyToClipboard(){
-            console.log("Copied the text");
-            var currenturl = window.location
-            console.log("Copied the text: " + currenturl);
+            var currenturl = window.location.toString();
+            if (chosenEventId != null){
+                const eventtext = "/Event/"+chosenEventId;
+                const lastSlash = window.location.toString().lastIndexOf("/");
+                if(window.location.toString().length - lastSlash == 3){
+                    currenturl = currenturl.slice(0,-3) + eventtext + currenturl.slice(-3);
+                }else{
+                    currenturl = currenturl + eventtext;
+                }
+            }
             navigator.clipboard.writeText(currenturl);
             alert("Copied the text: " + currenturl);
         }
     </script>
     <script>
         function init() {
-            // drawTimeline();
-            initLine();
-            insertPoints();
+            update();
             const eventSelected = {{is_null($eventId) ? "false" : "true"}};
             if (eventSelected){
                 const eventId = {{is_null($eventId) ? 0 : $eventId}};
@@ -56,45 +65,10 @@
                 openDetails(eventId,{{$langId}});
             }
         }
-        function drawTimeline(){
-            let timelineArea = document.getElementById("timeline");
-            var svg = document.getElementById('lineImage'); //Get svg element
-            var cardArray = [];
-            for(var card = 0; card < document.getElementsByClassName("card").length; card++)
-                cardArray.push(document.getElementsByClassName("card")[card].offsetTop);
-            console.log(cardArray.at(-1));
-            // svg.style.height = timelineArea.scrollHeight-2*50+"px";
-            svg.style.height = cardArray.at(-1)+15+"px";
-            var newElement = document.createElementNS("http://www.w3.org/2000/svg", 'circle'); //Create a path in SVG's namespace
-            var pathlength = svgPath.getTotalLength();
-            var pointsCount = document.getElementsByClassName("card").length;
-            var shownpart = (timelineArea.scrollHeight-2*50)/pathlength * 1.14;
-            var point;
-            for (var i = 0; i < pointsCount; i ++) {
-                let distance = (i * pathlength * shownpart)/(pointsCount);
-                newElement = document.createElementNS("http://www.w3.org/2000/svg", 'circle'); //Create a path in SVG's namespace
-                point = svgPath.getPointAtLength(distance);
-                // console.log(svgPath.offsetWidth)
-                // console.log(distance);
-                // console.log(point);
-                // console.log((point.x-2690).toString());
-                // console.log(distance.toString());
-                newElement.setAttribute("cx",((point.x-2480)).toString()); //Set path's data
-                // newElement.setAttribute("cy",((point.y-600)).toString()); //Set path's data
-                newElement.setAttribute("cy",cardArray[i].toString()); //Set path's data
-                newElement.setAttribute("r",(Math.ceil(Math.random()*10)+10).toString()); //Set path's data
-                svg.appendChild(newElement);
-                // for (var x = 0; x < timelineSVG.scrollWidth; x ++){
-                //     console.log(x);
-                //     console.log(svgPath.isPointInStroke(newElement));
-                //     newElement.setAttribute("cx",x.toString());
-                //     if (svgPath.isPointInStroke(newElement)){
-                //         break
-                //     }
-                //     // console.log("App");
-                //     svg.appendChild(newElement);
-                // }
-            }
+
+        function update() {
+            initLine();
+            insertPoints();
         }
 
         function initLine() {
@@ -105,7 +79,8 @@
             for(var card = 0; card < document.getElementsByClassName("card").length; card++)
                 cardArray.push(document.getElementsByClassName("card")[card].offsetTop);
             svgContainer.style.height = cardArray.at(-1)+15+"px";
-            svg.style.height = cardArray.at(-1)+15+"px";
+            console.log("Total length: " + (cardArray.at(-1)+15));
+            svg.style.height = Math.min(cardArray.at(-1)+15,document.getElementById("path").getBoundingClientRect().height) +"px";
             // var path = document.getElementById("path");
             // var minx = 100000000;
             // var maxx = 0;
@@ -121,7 +96,6 @@
         }
 
         function insertPoints(){
-            console.log("Pointcount: "+document.getElementsByClassName("timelinePoint").length)
             for(var cx = document.getElementsByClassName("timelinePoint").length-1; cx > 0; cx--){
                 document.getElementsByClassName("timelinePoint")[cx].remove();
             }
@@ -143,18 +117,15 @@
                 var cardMaxX = cardMinX + document.getElementsByClassName("card")[card].offsetWidth;
                 //check if card lies on line
                 if(cardMinX<posXPoint && cardMaxX>posXPoint){
-                    console.log("cardMinX: "+ cardMinX+" posXPoint: "+ posXPoint+" posXPoint: "+ posXPoint);
                     var cardElement = document.getElementsByClassName("card")[card];
                     var screenpos = window.getComputedStyle(cardElement).getPropertyValue('float');
                     if (screenpos = "left"){
                         //move card to left
                         var screenposright = window.getComputedStyle(cardElement).getPropertyValue('right');
-                        console.log("right: " + screenposright);
                         cardElement.style.left = 0 + "px";
                     }else{
                         //move card to right
                         var screenposleft = window.getComputedStyle(cardElement).getPropertyValue('left');
-                        console.log("left: " + screenposleft);
                         cardElement.style.right = 0 + "px";
                     }
                 }
@@ -185,7 +156,9 @@
                 var pt = path.getPointAtLength(height);
                 var distance = height;
                 if(pt.y != height){
-                    while (Math.abs(pt.y - height)>1){
+                    let loop = 0;
+                    while ((Math.abs(pt.y - height)>1) && (loop<5)){
+                        loop = loop + 1;
                         distance = distance + ((pt.y - height)<0 ? height-pt.y : pt.y - height);
                         pt = path.getPointAtLength(distance);
                     }
@@ -193,8 +166,9 @@
                 return pt
             }
         }
+
         addEventListener('load', init);
-        addEventListener('resize', init);
+        addEventListener('resize', update);
     </script>
     <script src="{{ URL('js/eventDetails.js') }}" defer></script>
 </head>
@@ -254,37 +228,40 @@
                 <h2>{{$eventdata->dtYear}}</h2>
                 <h3>{{$eventdata->dtTitle}}</h3>
                 <p>{{$eventdata->dtDescription}}</p>
-                <svg class="cardButton" data-name="Composant 24 – 2" xmlns="http://www.w3.org/2000/svg"
-                     xmlns:xlink="http://www.w3.org/1999/xlink" width="178" height="52" viewBox="0 0 178 52"
-                     onclick=openDetails({{$eventdata->idEvent}},{{$langId}})>
-                    <defs>
-                        <clipPath id="clip-path">
-                            <rect id="Rectangle_23" data-name="Rectangle 23" width="178" height="52" rx="26"
-                                  transform="translate(799 622)" fill="#912e22" stroke="#707070" stroke-width="1" />
-                        </clipPath>
-                    </defs>
-                    <g id="Groupe_de_masques_1" data-name="Groupe de masques 1" transform="translate(-799 -622)"
-                       clip-path="url(#clip-path)">
-                        <g id="pictures" transform="translate(-90 -329)">
-                            <rect id="Rectangle_22" data-name="Rectangle 22" width="178" height="52" rx="26"
-                                  transform="translate(889 951)" fill="#000"/>
-                            <text id="pictures-2" data-name="pictures" transform="translate(960 985)" fill="#fff" font-size="25"
-                                  font-family="Roboto-Thin, Roboto" font-weight="200" opacity="1">
-                                <tspan x="-22" y="0">images</tspan>
-                            </text>
+                @if(strlen($eventdata->dtContent)!=0)
+                    <svg class="cardButton" data-name="Composant 24 – 2" xmlns="http://www.w3.org/2000/svg"
+                         xmlns:xlink="http://www.w3.org/1999/xlink" width="178" height="52" viewBox="0 0 178 52"
+                         onclick=openDetails({{$eventdata->idEvent}},{{$langId}})>
+                        <defs>
+                            <clipPath id="clip-path">
+                                <rect id="Rectangle_23" data-name="Rectangle 23" width="178" height="52" rx="26"
+                                      transform="translate(799 622)" fill="#912e22" stroke="#707070" stroke-width="1" />
+                            </clipPath>
+                        </defs>
+                        <g id="Groupe_de_masques_1" data-name="Groupe de masques 1" transform="translate(-799 -622)"
+                           clip-path="url(#clip-path)">
+                            <g id="pictures" transform="translate(-90 -329)">
+                                <rect id="Rectangle_22" data-name="Rectangle 22" width="178" height="52" rx="26"
+                                      transform="translate(889 951)" fill="#000"/>
+                                <text id="pictures-2" data-name="pictures" transform="translate(960 985)" fill="#fff" font-size="25"
+                                      font-family="Roboto-Thin, Roboto" font-weight="200" opacity="1">
+                                    <tspan x="-22" y="0">images</tspan>
+                                </text>
+
+                            </g>
+                            <g id="more">
+                                <rect id="Rectangle_22-2" data-name="Rectangle 22" width="178" height="52" rx="26"
+                                      transform="translate(889 951)" fill="#912e22" />
+                                <text id="more-2" data-name="more" transform="translate(978 986)" fill="#fff" font-size="25"
+                                      font-family="Roboto-Thin, Roboto" font-weight="200">
+                                    <tspan x="-28" y="0">more</tspan>
+                                </text>
+                            </g>
 
                         </g>
-                        <g id="more">
-                            <rect id="Rectangle_22-2" data-name="Rectangle 22" width="178" height="52" rx="26"
-                                  transform="translate(889 951)" fill="#912e22" />
-                            <text id="more-2" data-name="more" transform="translate(978 986)" fill="#fff" font-size="25"
-                                  font-family="Roboto-Thin, Roboto" font-weight="200">
-                                <tspan x="-28" y="0">more</tspan>
-                            </text>
-                        </g>
+                    </svg>
+                @endif
 
-                    </g>
-                </svg>
             </div>
         @endforeach
             <div id="lineImage">
