@@ -170,8 +170,14 @@
                 //add Point
                 var svgContainer = document.getElementById('lineImage'); //Get svg container element
                 var newDiv = document.createElement("div");
+                var radius =Math.ceil(Math.random()*18)+10;
                 newDiv.style.transform = 'translate3d(' + pt.x + 'px,' + pt.y + 'px, 0)';
                 newDiv.classList.add('timelinePoint');
+                newDiv.style.width = 2*radius + "px";
+                newDiv.style.height = 2*radius + "px";
+                newDiv.style.borderRadius = radius + "px";
+                newDiv.style.top = "-" + radius + "px";
+                newDiv.style.left = "-" + radius + "px";
                 svgContainer.appendChild(newDiv);
                 return pt.x;
             }
@@ -248,9 +254,37 @@
                 <h2>{{$eventdata->dtYear}}</h2>
                 <h3>{{$eventdata->dtTitle}}</h3>
                 <p>{{$eventdata->dtDescription}}</p>
-                <div class="cardButton" onclick=openDetails({{$eventdata->idEvent}},{{$langId}});>
-                    <div>Details</div>
-                </div>
+                <svg class="cardButton" data-name="Composant 24 – 2" xmlns="http://www.w3.org/2000/svg"
+                     xmlns:xlink="http://www.w3.org/1999/xlink" width="178" height="52" viewBox="0 0 178 52"
+                     onclick=openDetails({{$eventdata->idEvent}},{{$langId}})>
+                    <defs>
+                        <clipPath id="clip-path">
+                            <rect id="Rectangle_23" data-name="Rectangle 23" width="178" height="52" rx="26"
+                                  transform="translate(799 622)" fill="#912e22" stroke="#707070" stroke-width="1" />
+                        </clipPath>
+                    </defs>
+                    <g id="Groupe_de_masques_1" data-name="Groupe de masques 1" transform="translate(-799 -622)"
+                       clip-path="url(#clip-path)">
+                        <g id="pictures" transform="translate(-90 -329)">
+                            <rect id="Rectangle_22" data-name="Rectangle 22" width="178" height="52" rx="26"
+                                  transform="translate(889 951)" fill="#000"/>
+                            <text id="pictures-2" data-name="pictures" transform="translate(960 985)" fill="#fff" font-size="25"
+                                  font-family="Roboto-Thin, Roboto" font-weight="200" opacity="1">
+                                <tspan x="-22" y="0">images</tspan>
+                            </text>
+
+                        </g>
+                        <g id="more">
+                            <rect id="Rectangle_22-2" data-name="Rectangle 22" width="178" height="52" rx="26"
+                                  transform="translate(889 951)" fill="#912e22" />
+                            <text id="more-2" data-name="more" transform="translate(978 986)" fill="#fff" font-size="25"
+                                  font-family="Roboto-Thin, Roboto" font-weight="200">
+                                <tspan x="-28" y="0">more</tspan>
+                            </text>
+                        </g>
+
+                    </g>
+                </svg>
             </div>
         @endforeach
             <div id="lineImage">

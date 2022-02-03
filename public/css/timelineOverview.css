@@ -61,7 +61,7 @@ header button .shareSymbol{
 header h1{
     text-align: center;
     font-size: 5vw;
-    color: var(--lightred);
+    color: var(--backgroundred);
 }
 @media only screen and (max-width: 480px) {
     header h1{
@@ -71,7 +71,7 @@ header h1{
 
 #menu {
     position: absolute;
-    background-color: var(--lightred);
+    background-color: var(--backgroundred);
     width: 100%;
     box-shadow: 0 8px 10px 5px rgba(0,0,0,0.1);
     padding-bottom: 15px;
@@ -139,8 +139,8 @@ header h1{
 
 #menu #popupbutton{
     position: relative;
-    background-color: var(--lightred);
-    border: 2px solid var(--lightred);
+    background-color: var(--backgroundred);
+    border: 2px solid var(--backgroundred);
     box-shadow: 0 14px 10px 4px rgba(0,0,0,0.1);
     border-radius: 0 0 5px 5px;
     font-size: 10px;
@@ -204,18 +204,12 @@ header h1{
     fill: var(--highlightred);
 }
 
-#timeline div{
+#timeline .card{
     z-index: 3;
 }
 .timelinePoint {
     background: var(--highlightred);
-    width: 20px;
-    height: 20px;
-    border-radius: 10px;
     position: absolute;
-    /* Align center */
-    top: -10px;
-    left: -10px;
 }
 
 #lineImage{
@@ -266,7 +260,8 @@ header h1{
 }
 
 .card h2{
-    font-size: 1em;
+    font-size: 1.5em;
+    font-weight: 100;
 }
 
 .card h2,h3{
@@ -278,38 +273,21 @@ header h1{
 }
 .card p{
     font-size: 0.4em;
+    text-align:justify;
+    text-justify:auto;
 }
 
-.cardButton{
-    position: relative;
-    background-color: var(--backgroundred);
-    /*border: 2px solid var(--backgroundred);*/
-    border-radius: 20px;
-    color: white;
-    display: inline-block;
-    font-size: 16px;
-    cursor: pointer;
-    padding: 20px;
-    line-height: 0;
-    text-align: center;
-    min-width: fit-content;
-    width: 25%;
-    font-weight: lighter;
-    box-shadow: inset 0 0 0 0 black;
-    transition: ease-in-out 0.6s;
+.cardButton {
+    cursor: default;
+    margin-top: 10px;
 }
 
-.cardButton:hover {
-    box-shadow: inset -400px 0 0 0 black;
+.cardButton #more {
+    transform: translate(-90px, -329px);
+    transition: transform 0.6s;
 }
-
-.cardButton:hover > div{
-    margin-left: -400px;
-}
-
-.cardButton div{
-    transition: margin-left 0.6s;
-    transition-timing-function: ease-in-out;
+.cardButton:hover #more {
+    transform: translate(-270px, -329px);
 }
 
 .overlay {
