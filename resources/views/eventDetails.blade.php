@@ -40,11 +40,15 @@
                 @php
                     $imageNumber++;
                 @endphp
-
-                <figure>
-                    <img id='eventImg' src='/images/gallerie/{{$image->dtPath}}' onclick="openModal();currentSlide({{$imageNumber}})" class="hover-shadow cursor">
-                </figure><br>
-
+                @if($image->dtIs360 == 1)
+                    <iframe width="600px" height="350px" frameborder="0" src="{{$image->dtPath}}">
+                    </iframe>
+                @endif
+                @if($image->dtIs360 == 0)
+                    <figure>
+                        <img id='eventImg' src='/images/gallerie/{{$image->dtPath}}' onclick="openModal();currentSlide({{$imageNumber}})" class="hover-shadow cursor">
+                    </figure><br>
+                @endif
             @endforeach
         </aside>
 
@@ -59,7 +63,7 @@
                 @endif
             </div>
             <br>
-
+            <br>
             <div class='descriptionContent'>
                 @php
                     $html = Str::markdown($singleEvent->dtContent);
@@ -75,12 +79,14 @@
         <div class="modal-content">
 
             @foreach ($categoryImage as $image)
-                <div class="mySlides">
-                    <img src='/images/gallerie/{{$image->dtPath}}' style="width:25vw">
-                </div>
-                <div class="caption-container">
-                    <p id="caption">{{$image->dtCopyright}}</p>
-                </div>
+                @if($image->dtIs360 == 0)
+                    <div class="mySlides">
+                        <img src='/images/gallerie/{{$image->dtPath}}'>
+                    </div>
+                    <div class="caption-container">
+                        <p id="caption">{{$image->dtCopyright}}</p>
+                    </div>
+                @endif
             @endforeach
 
             <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
@@ -89,16 +95,5 @@
     </div>
 @endforeach
 
-<!--
-    <iframe width="600px" height="350px" frameborder="0" src="https://momento360.com/e/u/a9f0706cff9d4facb1390d69e76ff5d8?utm_campaign=embed&utm_source=other&utm_medium=other&heading=0&pitch=0&field-of-view=100">
-
-    </iframe>
-
-    <div id="panorama-360-view"></div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pannellum/2.5.6/pannellum.js"
-            integrity="sha512-EmZuy6vd0ns9wP+3l1hETKq/vNGELFRuLfazPnKKBbDpgZL0sZ7qyao5KgVbGJKOWlAFPNn6G9naB/8WnKN43Q=="
-            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="main.js"></script>
--->
 </body>
 </html>

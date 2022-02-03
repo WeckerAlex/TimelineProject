@@ -1,21 +1,5 @@
-* {
-    box-sizing: border-box;
-}
 
-.row > .column {
-    padding: 0 8px;
-}
-
-.row:after {
-    content: "";
-    display: table;
-    clear: both;
-}
-
-.column {
-    float: left;
-    width: 25%;
-}
+/*This is the Style for the image viewer*/
 
 /* The Modal (background) */
 .modal {
@@ -62,6 +46,10 @@
     display: none;
     width: 25vw;
     margin: auto;
+}
+
+.mySlides > img{
+    width: 25vw;
 }
 
 .cursor {
@@ -118,6 +106,7 @@ img.hover-shadow {
 .hover-shadow:hover {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
+/*This is the Style for the image viewer           END              */
 
 
 
@@ -126,22 +115,6 @@ img.hover-shadow {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-#panorama-360-view {
-    width: 100vw;
-    height: 100vh;
-}
 
 .headfonts, .descriptionContent{
     text-align: left;
@@ -184,11 +157,6 @@ iframe{
     margin-right: auto;
 }
 
-p, ul, ol{
-    margin-bottom: 1vw;
-}
-
-
 .generalMain {
     margin: 0;
     padding: 0;
@@ -229,5 +197,12 @@ p, ul, ol{
     }
     #eventImg, figure{
         width: 32vw;
+    }
+
+    .mySlides > img, .mySlides{
+        width: 50vw;
+    }
+    .modal-content{
+        width: 55vw;
     }
 }
