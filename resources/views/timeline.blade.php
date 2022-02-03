@@ -1,12 +1,4 @@
-<?php
-$cookie_name = "playSplash";
-$cookie_value = "No";
-
-if (!isset($_COOKIE[$cookie_name])) {
-    setcookie($cookie_name, $cookie_value, time() + (86400 * 1 / 8), "/"); // 86400 = 1 day
-}
-?>
-        <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
@@ -18,16 +10,16 @@ if (!isset($_COOKIE[$cookie_name])) {
 </head>
 <body>
 
-@if(!isset($_COOKIE["playSplash"]))
-    <div id="splashScreen" onclick="removeSplash()">
-        <img id="topLeftImage" src='../../images/intro/Image3_modif.png'>
-        <img id="topRightImage" src='../../images/intro/Image1_modif.png'>
-        <img id="bottomLeftImage" src='../../images/intro/Image5_modif.png'>
-        <img id="bottomRightImage" src='../../images/intro/Image2_modif.png'>
-        <span id="firstTextAnimation">LAM EN CHIFFRE</span>
-        <span id="secondTextAnimation">FUTUR</span>
-    </div>
-@endif
+
+<div id="splashScreen" onclick="removeSplash()">
+    <img id="topLeftImage" src='../../images/intro/Image3_modif.png'>
+    <img id="topRightImage" src='../../images/intro/Image1_modif.png'>
+    <img id="bottomLeftImage" src='../../images/intro/Image5_modif.png'>
+    <img id="bottomRightImage" src='../../images/intro/Image2_modif.png'>
+    <span id="firstTextAnimation">LAM EN CHIFFRE</span>
+    <span id="secondTextAnimation">FUTUR</span>
+</div>
+
 
 <ul id="categoryList">
     <?php
