@@ -7,9 +7,6 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{{URL('css/colors.css')}}">
     <link rel="stylesheet" type="text/css" href="{{URL('css/eventDetails.css')}}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pannellum/2.5.6/pannellum.css"
-          integrity="sha512-UoT/Ca6+2kRekuB1IDZgwtDt0ZUfsweWmyNhMqhG4hpnf7sFnhrLrO0zHJr2vFp7eZEvJ3FN58dhVx+YMJMt2A=="
-          crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <title>LAM125 - Event</title>
 </head>
 <body>
@@ -20,21 +17,22 @@
 
 @endphp
 
-
-
 @foreach ($event as $singleEvent)
     @php
         $eventyear = DB::table('Event')->where('idEvent', $singleEvent->fiEvent)->get();
         $imageNumber = 0;
     @endphp
+
+{{--    Display the Year and Title    --}}
     @foreach ($eventyear as $singleEventyear)
         <div><span id='year' class='headfonts'>{{$singleEventyear->dtYear}}</span></div><br>
         <div><span id='title' class='headfonts'>{{$singleEvent->dtTitle}}</span></div><br>
     @endforeach
 
 
-
+    {{--    A div containing the gallery at the left and the description and the content    --}}
     <div class="generalMain">
+        {{--    gallery    --}}
         <aside class="gallery">
             @foreach ($categoryImage as $image)
                 @php
@@ -51,29 +49,34 @@
                 @endif
             @endforeach
         </aside>
-
+        {{--    Text section with the description and the content    --}}
         <section class="generalSection">
             <div class='descriptionContent'>
-
-                @if($singleEvent->dtDescription != null)
-                    @php
-                        $htmlDescription = Str::markdown($singleEvent->dtDescription);
-                    @endphp
-                    {!! $htmlDescription !!}
-                @endif
+                @foreach ($eventyear as $singleEventyear)
+                    @if($singleEvent->dtDescription != null)
+                        @php
+                            $htmlDescription = Str::markdown($singleEvent->dtDescription);
+                        @endphp
+                        {!! $htmlDescription !!}
+                    @endif
+                @endforeach
             </div>
             <br>
             <br>
             <div class='descriptionContent'>
-                @php
-                    $html = Str::markdown($singleEvent->dtContent);
-                @endphp
-
-                {!! $html !!}
+                @foreach ($eventyear as $singleEventyear)
+                    @if($singleEvent->dtContent != null)
+                        @php
+                            $html = Str::markdown($singleEvent->dtContent);
+                        @endphp
+                        {!! $html !!}
+                    @endif
+                @endforeach
             </div>
         </Section>
     </div>
 
+{{--    Image Viewer    --}}
     <div id="myModal" class="modal">
         <span class="close cursor" onclick="closeModal()">&times;</span>
         <div class="modal-content">

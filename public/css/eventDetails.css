@@ -97,6 +97,7 @@ img {
     font-weight: bold;
     background-color: var(--langLinkColor);
     padding: 2px 16px;
+    height: 1vw;
 }
 
 img.hover-shadow {
